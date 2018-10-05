@@ -1,0 +1,16 @@
+/**/ WPCOMSharing.update_facebook_count({
+   "https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/": {
+      "share": {
+         "comment_count": 0,
+         "share_count": 22
+      },
+      "og_object": {
+         "id": "1526472617366823",
+         "description": "Pradeep Singh | 20th Jan 2017 MQTT is a great protocol for Sensors to publish data to their Subscribers. However, when it comes to analytics or reporting, you need historical data. Most MQTT broker\u2026",
+         "title": "Store MQTT Data from Sensors into SQL Database",
+         "type": "article",
+         "updated_time": "2018-08-27T19:33:15+0000"
+      },
+      "id": "https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/"
+   }
+});

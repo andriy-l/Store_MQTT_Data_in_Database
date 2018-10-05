@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html class="js wf-lato-n4-active wf-lato-i4-active wf-lato-n7-active wf-lato-i7-active wf-lora-n4-active wf-active" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script async="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a_004"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://iotbytes.wordpress.com/xmlrpc.php">
+
+<title>Store MQTT Data from Sensors into SQL Database – IoT Bytes</title>
+<script type="text/javascript" async="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/platform.js"></script><script src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/webfont.js" type="text/javascript" async=""></script><script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Lora:r:latin,latin-ext","Lato:r,i,b,bi:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s0.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active body{font-family:"Lato",sans-serif}.wf-active .search-container .search-field{font-family:"Lato",sans-serif}.wf-active .blog-description{font-family:"Lato",sans-serif}.wf-active .post-content p.page-links{font-family:"Lato",sans-serif}.wf-active .post-content{font-family:"Lato",sans-serif}.wf-active .post-content h4, .wf-active .post-content h5, .wf-active .post-content h6{font-family:"Lato",sans-serif}.wf-active .post-content blockquote p{font-family:"Lato",sans-serif}.wf-active .post-content blockquote cite{font-family:"Lato",sans-serif}.wf-active .post-content .gallery-caption, .wf-active .post-content .wp-caption-text{font-family:"Lato",sans-serif}.wf-active .post-content fieldset legend{font-family:"Lato",sans-serif}.wf-active .post-content label{font-family:"Lato",sans-serif}.wf-active .post-content input, .wf-active .post-content textarea{font-family:"Lato",sans-serif}.wf-active .pingbacklist li:before{font-family:"Lato",sans-serif}.wf-active .comments-nav .fleft a:before{font-family:"Lato",sans-serif}.wf-active .comments-nav .fright a:after{font-family:"Lato",sans-serif}.wf-active .comment-respond input[type="text"], .wf-active .comment-respond textarea{font-family:"Lato",sans-serif}.wf-active .comment-respond input[type="submit"]{font-family:"Lato",sans-serif}.wf-active .wrapper .search-field{font-family:"Lato",sans-serif}.wf-active .comment-respond#respond{font-family:"Lato",sans-serif}.wf-active .blog-title{font-weight:400;font-style:normal}.wf-active .post-title{font-family:"Lora",serif;font-weight:400;font-style:normal}.wf-active .single-post .post-title{font-weight:400;font-style:normal}.wf-active .related-posts-title{font-weight:400;font-style:normal}.wf-active .post-content h1, .wf-active .post-content h2, .wf-active .post-content h3{font-family:"Lora",serif;font-weight:400;font-style:normal}.wf-active .post-content h1, .wf-active .post-content h2, .wf-active .post-content h3{font-family:"Lora",serif;font-weight:400;font-style:normal}.wf-active .post-content h1{font-style:normal;font-weight:400}.wf-active .post-content h2{font-style:normal;font-weight:400}.wf-active .post-content h3{font-style:normal;font-weight:400}.wf-active .comment-reply-title, .wf-active .comments-title{font-weight:400;font-style:normal}.wf-active .comment-reply-title .fa, .wf-active .comments-title .fa{font-style:normal;font-weight:400}.wf-active .widget-title{font-weight:400;font-style:normal}.wf-active .widget_rss li a{font-family:"Lora",serif;font-weight:400;font-style:normal}.wf-active .rowling-widget-list .title{font-family:"Lora",serif;font-weight:400;font-style:normal}.wf-active .post-content div#jp-relatedposts h3.jp-relatedposts-headline{font-family:"Lora",serif;font-style:normal;font-weight:400}</style>
+<meta name="google-site-verification" content="9U-oX_n0pj6Wrf5EoJZifHtHbuynVjthBC27ytXFfZw">
+<meta name="msvalidate.01" content="E4DC29E8E80927CDB767E87752F7A4A6">
+<meta name="p:domain_verify" content="cfbba49509d5b193c99a1d473ea7dafb">
+<meta name="yandex-verification" content="6727f47c4f64d026">
+<script>document.documentElement.className = document.documentElement.className.replace("no-js","js");</script>
+<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://s.pubmine.com/">
+<link rel="dns-prefetch" href="https://x.bidswitch.net/">
+<link rel="dns-prefetch" href="https://static.criteo.net/">
+<link rel="dns-prefetch" href="https://ib.adnxs.com/">
+<link rel="dns-prefetch" href="https://aax.amazon-adsystem.com/">
+<link rel="dns-prefetch" href="https://bidder.criteo.com/">
+<link rel="dns-prefetch" href="https://cas.criteo.com/">
+<link rel="dns-prefetch" href="https://gum.criteo.com/">
+<link rel="dns-prefetch" href="https://ads.pubmatic.com/">
+<link rel="dns-prefetch" href="https://gads.pubmatic.com/">
+<link rel="dns-prefetch" href="https://tpc.googlesyndication.com/">
+<link rel="dns-prefetch" href="https://ad.doubleclick.net/">
+<link rel="dns-prefetch" href="https://googleads.g.doubleclick.net/">
+<link rel="dns-prefetch" href="https://www.googletagservices.com/">
+<link rel="dns-prefetch" href="https://cdn.switchadhub.com/">
+<link rel="dns-prefetch" href="https://delivery.g.switchadhub.com/">
+<link rel="dns-prefetch" href="https://delivery.swid.switchadhub.com/">
+<link rel="alternate" type="application/rss+xml" title="IoT Bytes » Feed" href="https://iotbytes.wordpress.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="IoT Bytes » Comments Feed" href="https://iotbytes.wordpress.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="IoT Bytes » Store MQTT Data from Sensors into SQL&nbsp;Database Comments Feed" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1532082729h&ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="all-css-0-1" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="fonts-css" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/css.css" type="text/css" media="all">
+<link rel="stylesheet" id="all-css-2-1" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a_003.css" type="text/css" media="all">
+<link rel="stylesheet" id="print-css-3-1" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/global-print.css" type="text/css" media="print">
+<link rel="stylesheet" id="all-css-4-1" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a.css" type="text/css" media="all">
+<link rel="stylesheet" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/css_002.css" media="all"><script type="text/javascript" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a"></script>
+<link rel="stylesheet" id="all-css-0-2" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/style.css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://iotbytes.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/">
+<link rel="shortlink" href="https://wp.me/P7qgGK-12t">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Store MQTT Data from Sensors into SQL Database">
+<meta property="og:url" content="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/">
+<meta property="og:description" content="Pradeep Singh | 20th Jan 2017 MQTT is a&nbsp;great protocol for Sensors to publish data to their Subscribers. However, when it comes to&nbsp;analytics or reporting, you need historical data. Most MQTT broker…">
+<meta property="article:published_time" content="2017-01-22T11:45:04+00:00">
+<meta property="article:modified_time" content="2017-05-30T16:35:04+00:00">
+<meta property="og:site_name" content="IoT Bytes">
+<meta property="og:image" content="https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png">
+<meta property="og:image:width" content="890">
+<meta property="og:image:height" content="716">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:site" content="@wordpressdotcom">
+<meta name="twitter:text:title" content="Store MQTT Data from Sensors into SQL&nbsp;Database">
+<meta name="twitter:card" content="summary">
+<meta property="fb:app_id" content="249643311490">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/c65ffe0f4a0d17cf7501d6033ecd052f?s=32" sizes="16x16">
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/c65ffe0f4a0d17cf7501d6033ecd052f?s=32" sizes="16x16">
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/c65ffe0f4a0d17cf7501d6033ecd052f?s=114">
+<link rel="search" type="application/opensearchdescription+xml" href="https://iotbytes.wordpress.com/osd.xml" title="IoT Bytes">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="IoT Bytes"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Bits and Bytes of IoT"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://iotbytes.wordpress.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/c65ffe0f4a0d17cf7501d6033ecd052f?s=16"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="description" content="Pradeep Singh | 20th Jan 2017 MQTT is a&nbsp;great protocol for Sensors to publish data to their Subscribers. However, when it comes to&nbsp;analytics or reporting, you need historical data. Most MQTT brokers don't provide any built-in mechanism to save MQTT data into Database. This may be the missing piece in your IoT Project. So, let's…">
+		<script type="text/javascript">
+		function __ATA_CC() {var v = document.cookie.match('(^|;) ?personalized-ads-consent=([^;]*)(;|$)');return v ? 1 : 0;}
+		var __ATA_PP = { pt: 2, ht: 0, tn: 'rowling', amp: false, siteid: 8982, consent: __ATA_CC() };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/head.js" async=""></script><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script type="text/javascript" async="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/ga.js"></script>
+
+<style type="text/css"></style><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/services.css"></head>
+
+	<body class="page-template-default page page-id-3997 mp6 customizer-styles-applied has-site-logo highlander-enabled highlander-light">
+
+		<a class="skip-link screen-reader-text" href="#main">Skip to content</a>
+
+		
+			<nav class="top-nav">
+
+				<div class="section-inner clear-fix">
+
+					<ul class="header-top-menu">
+
+						<li id="menu-item-4231" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4231"><a href="https://iotbytes.wordpress.com/">Home</a></li>
+<li id="menu-item-1683" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1683"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/">Fundamentals</a>
+<ul class="sub-menu">
+	<li id="menu-item-1682" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1682"><a href="https://iotbytes.wordpress.com/what-is-iot/">What is IoT?</a></li>
+	<li id="menu-item-1810" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1810"><a href="https://iotbytes.wordpress.com/popular-hardware-platforms-for-iot/">Hardware Platforms for IoT</a></li>
+	<li id="menu-item-3021" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3021"><a href="https://iotbytes.wordpress.com/basic-sensors-for-iot/">Basic IoT Sensors</a></li>
+	<li id="menu-item-4293" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4293"><a href="https://iotbytes.wordpress.com/basic-iot-actuators/">Basic IoT Actuators</a></li>
+	<li id="menu-item-2194" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2194"><a href="https://iotbytes.wordpress.com/application-protocols-for-iot/">Application Protocols for IoT</a></li>
+	<li id="menu-item-2362" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2362"><a href="https://iotbytes.wordpress.com/network-access-protocols-for-iot/">Wireless Networking Technologies for IoT</a></li>
+	<li id="menu-item-2566" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2566"><a href="https://iotbytes.wordpress.com/open-source-tools-for-iot-software-applications/">Open Source Tools for IoT Software Applications</a></li>
+</ul>
+</li>
+<li id="menu-item-644" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-644"><a title="ESP8266" href="https://iotbytes.wordpress.com/esp8266-2/">ESP8266</a>
+<ul class="sub-menu">
+	<li id="menu-item-93" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-93"><a href="https://iotbytes.wordpress.com/esp8266-2/">Introduction</a></li>
+	<li id="menu-item-578" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-578"><a href="https://iotbytes.wordpress.com/esp8266-pinouts/">Pinout</a></li>
+	<li id="menu-item-527" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-527"><a href="https://iotbytes.wordpress.com/esp8266/">Initial Setup</a></li>
+	<li id="menu-item-801" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-801"><a href="https://iotbytes.wordpress.com/esp8266-flashing-and-programming-cradle/">Flashing Cradle</a></li>
+	<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://iotbytes.wordpress.com/3-3v-power-supply-for-esp-8266/">3.3v Power Supply</a></li>
+</ul>
+</li>
+<li id="menu-item-645" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-645"><a title="NodeMCU" href="https://iotbytes.wordpress.com/nodemcu/">NodeMCU</a>
+<ul class="sub-menu">
+	<li id="menu-item-94" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-94"><a href="https://iotbytes.wordpress.com/nodemcu/">Introduction</a></li>
+	<li id="menu-item-634" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-634"><a href="https://iotbytes.wordpress.com/nodemcu-pinout/">Pinout</a></li>
+	<li id="menu-item-247" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-247"><a href="https://iotbytes.wordpress.com/first-time-setup-for-nodemcu/">Initial Setup</a></li>
+	<li id="menu-item-427" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-427"><a href="https://iotbytes.wordpress.com/managing-files-with-nodemcu/">File Management</a></li>
+	<li id="menu-item-315" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-315"><a href="https://iotbytes.wordpress.com/wifi-configuration-on-nodemcu/">WiFi Configuration</a></li>
+	<li id="menu-item-1076" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1076"><a href="https://iotbytes.wordpress.com/checking-wifi-status-before-performing-any-task-on-esp8266/">Check WiFi Connection Status</a></li>
+	<li id="menu-item-220" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-220"><a href="https://iotbytes.wordpress.com/mqtt-with-nodemcu/">MQTT</a></li>
+</ul>
+</li>
+<li id="menu-item-646" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-646"><a title="RaspberryPi" href="https://iotbytes.wordpress.com/raspberrypi/">Raspberry Pi</a>
+<ul class="sub-menu">
+	<li id="menu-item-106" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106"><a href="https://iotbytes.wordpress.com/raspberrypi/">Introduction</a></li>
+	<li id="menu-item-1152" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1152"><a href="https://iotbytes.wordpress.com/raspberry-pi-pinout/">Pinout</a></li>
+	<li id="menu-item-5088" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5088"><a href="https://iotbytes.wordpress.com/raspberry-pi-ip-network-configuration/">Raspberry Pi IP Network Configuration</a></li>
+	<li id="menu-item-1344" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1344"><a href="https://iotbytes.wordpress.com/mosquitto-mqtt-broker-on-raspberry-pi/">MQTT Broker on Raspberry Pi</a></li>
+	<li id="menu-item-3793" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3793"><a href="https://iotbytes.wordpress.com/sqlite-db-on-raspberry-pi/">SQLite DB on Raspberry Pi</a></li>
+	<li id="menu-item-3629" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3629"><a href="https://iotbytes.wordpress.com/python-flask-web-application-on-raspberry-pi-with-nginx-and-uwsgi/">Python Flask Web Application on Raspberry Pi with NGINX and uWSGI</a></li>
+	<li id="menu-item-4380" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4380"><a href="https://iotbytes.wordpress.com/programmatically-send-e-mail-from-raspberry-pi-using-python-and-gmail/">Send Email from Raspberry Pi using Python Script and Gmail SMTP</a></li>
+	<li id="menu-item-4593" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4593"><a href="https://iotbytes.wordpress.com/programmatically-tweet-from-raspberry-pi-using-python-script/">Post a Tweet on Twitter from Raspberry Pi using Python Script</a></li>
+	<li id="menu-item-1600" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1600"><a href="https://iotbytes.wordpress.com/monitor-ups-power-events-on-mqtt-client/">APCUPSD on Raspberry Pi</a></li>
+</ul>
+</li>
+<li id="menu-item-122" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-122"><a href="https://iotbytes.wordpress.com/mqtt/">MQTT</a>
+<ul class="sub-menu">
+	<li id="menu-item-123" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-123"><a href="https://iotbytes.wordpress.com/mqtt/">Introduction</a></li>
+	<li id="menu-item-927" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-927"><a href="https://iotbytes.wordpress.com/capturing-and-analysing-mqtt-packets/">Capturing and Analysing MQTT Packets</a></li>
+	<li id="menu-item-159" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-159"><a href="https://iotbytes.wordpress.com/paho-mqtt-with-python/">Paho MQTT with Python</a></li>
+	<li id="menu-item-1345" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1345"><a href="https://iotbytes.wordpress.com/mosquitto-mqtt-broker-on-raspberry-pi/">MQTT Broker on Raspberry Pi</a></li>
+	<li id="menu-item-3993" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3993"><a href="https://iotbytes.wordpress.com/mqtt-over-websockets/">MQTT over WebSockets</a></li>
+	<li id="menu-item-4225" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-3997 current_page_item menu-item-4225"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/">Storing MQTT Data from Sensors into SQL Database</a></li>
+	<li id="menu-item-219" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-219"><a href="https://iotbytes.wordpress.com/mqtt-with-nodemcu/">MQTT with NodeMCU</a></li>
+	<li id="menu-item-1601" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1601"><a href="https://iotbytes.wordpress.com/monitor-ups-power-events-on-mqtt-client/">Publish APC UPS Power Events on MQTT</a></li>
+	<li id="menu-item-736" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-736"><a href="https://iotbytes.wordpress.com/physical-shutdown-button-for-wd-my-cloud/">MQTT Based Shutdown Button for WD My Cloud</a></li>
+</ul>
+</li>
+<li id="menu-item-4801" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4801"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/">AWS IoT</a>
+<ul class="sub-menu">
+	<li id="menu-item-5181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5181"><a href="https://iotbytes.wordpress.com/starting-with-aws-iot/">Getting Started with AWS IoT</a></li>
+	<li id="menu-item-4800" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4800"><a href="https://iotbytes.wordpress.com/aws-iot-cli-on-raspberry-pi/">AWS IoT CLI on Raspberry Pi</a></li>
+	<li id="menu-item-5083" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5083"><a href="https://iotbytes.wordpress.com/mqtt-with-aws-iot-using-python-and-paho/">MQTT with AWS IoT Platform using Python and Paho</a></li>
+	<li id="menu-item-5418" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5418"><a href="https://iotbytes.wordpress.com/aws-iot-policy-basics/">Basics of AWS IoT Policies</a></li>
+	<li id="menu-item-6128" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6128"><a href="https://iotbytes.wordpress.com/device-shadows-part-1-basics/">Device Shadows – Part 1 (MQTT Topics and REST APIs)</a></li>
+	<li id="menu-item-6411" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6411"><a href="https://iotbytes.wordpress.com/device-shadows-part-2-mqtt-based-prototype-using-pytraspberry-pi/">Device Shadows – Part 2 (MQTT Based Prototype using Python and Raspberry Pi)</a></li>
+	<li id="menu-item-6664" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6664"><a href="https://iotbytes.wordpress.com/device-shadows-part-3-restful-api-based-prototype-using-python/">Device Shadows – Part 3 (RESTful API Based Prototype using Python)</a></li>
+</ul>
+</li>
+<li id="menu-item-7285" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7285"><a href="https://iotbytes.wordpress.com/raspberry-pi-cluster-for-docker-containers/">Containers</a>
+<ul class="sub-menu">
+	<li id="menu-item-7487" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7487"><a href="https://iotbytes.wordpress.com/basics-of-containers-docker-and-container-orchestration/">Basics of Containers, Docker, and Container Orchestration</a></li>
+	<li id="menu-item-7896" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7896"><a href="https://iotbytes.wordpress.com/docker-containers-and-iot-applications/">Docker Containers and IoT Applications</a></li>
+	<li id="menu-item-8065" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8065"><a href="https://iotbytes.wordpress.com/setting-up-docker-on-raspberry-pi-and-running-hello-world-container/">Setup Docker on Raspberry Pi and Run hello-world Container</a></li>
+	<li id="menu-item-7286" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7286"><a href="https://iotbytes.wordpress.com/raspberry-pi-cluster-for-docker-containers/">Raspberry Pi Cluster for Docker Containers</a></li>
+</ul>
+</li>
+<li id="menu-item-8267" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-8267"><a href="https://iotbytes.wordpress.com/hack-single-bay-wd-my-cloud-nas-drive-to-create-nfs-share-for-vmware-vcenter-datastore/">Virtualization and Cloud</a>
+<ul class="sub-menu">
+	<li id="menu-item-8268" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8268"><a href="https://iotbytes.wordpress.com/hack-single-bay-wd-my-cloud-nas-drive-to-create-nfs-share-for-vmware-vcenter-datastore/">Hack Single Bay WD My Cloud NAS Drive to Create NFS Share for VMware vCenter Datastore</a></li>
+</ul>
+</li>
+<li id="menu-item-6693" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6693"><a href="https://iotbytes.wordpress.com/about-2/">About Me</a>
+<ul class="sub-menu">
+	<li id="menu-item-6694" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6694"><a href="https://iotbytes.wordpress.com/contact/">Contact Me</a></li>
+	<li id="menu-item-6696" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6696"><a href="https://iotbytes.wordpress.com/about-2/">About Me</a></li>
+</ul>
+</li>
+
+					</ul> <!-- /header-top-menu -->
+
+					<ul class="social-menu">
+
+						<li id="menu-item-151" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-151"><a class="search-toggle" href="#"><span class="screen-reader-text">Search</span></a></li>
+					</ul> <!-- /social-menu -->
+
+				</div> <!-- /section-inner -->
+
+			</nav> <!-- /top-nav -->
+
+		
+		<div class="search-container">
+
+			<div class="section-inner">
+
+				
+<form method="get" class="search-form" action="https://iotbytes.wordpress.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input class="search-field" placeholder="Search" name="s" title="Search for:" type="search">
+	</label>
+	<button type="submit" class="search-button"><span class="fa fw fa-search"></span><span class="screen-reader-text">Search</span></button>
+</form>
+
+			</div> <!-- /section-inner -->
+
+		</div> <!-- /search-container -->
+
+		<header class="header-wrapper">
+
+			<div class="header">
+
+				<div class="section-inner">
+
+					
+						<a href="https://iotbytes.wordpress.com/" class="site-logo-link" rel="home"><img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/iotbytes.png" class="site-logo attachment-rowling_site_logo" alt="" data-size="rowling_site_logo" srcset="https://iotbytes.files.wordpress.com/2016/04/iotbytes.png?w=69 69w, https://iotbytes.files.wordpress.com/2016/04/iotbytes.png?w=138 138w, https://iotbytes.files.wordpress.com/2016/04/iotbytes.png?w=130 130w" sizes="(max-width: 69px) 100vw, 69px" data-attachment-id="3" data-permalink="https://iotbytes.wordpress.com/iotbytes/" data-orig-file="https://iotbytes.files.wordpress.com/2016/04/iotbytes.png" data-orig-size="600,691" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="iotbytes" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2016/04/iotbytes.png?w=260" data-large-file="https://iotbytes.files.wordpress.com/2016/04/iotbytes.png?w=600" height="80" width="69"></a>
+						<h2 class="site-title">
+							<a href="https://iotbytes.wordpress.com/" title="IoT Bytes — Bits and Bytes of IoT" rel="home">IoT Bytes</a>
+						</h2>
+
+													<h4 class="site-description">Bits and Bytes of IoT</h4>
+						
+					
+					
+				</div> <!-- /section-inner -->
+
+			</div> <!-- /header -->
+
+			
+		</header> <!-- /header-wrapper -->
+
+<div class="wrapper section-inner">
+
+	<main id="main" class="content">
+
+		
+			
+			
+			<article id="page-3997" class="post single single-post post-3997 page type-page status-publish hentry">
+
+				<header class="post-header">
+
+					<h1 class="post-title">Store MQTT Data from Sensors into SQL&nbsp;Database</h1>
+				</header> <!-- /post-header -->
+
+				
+				<div class="post-inner clear-fix">
+
+					<div class="post-content">
+
+						<p><em><span style="color:#999999;">Pradeep Singh | 20th Jan 2017</span></em></p>
+<p><img data-attachment-id="4005" data-permalink="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/mqtt-to-db/" data-orig-file="https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png?w=335&amp;h=130" data-orig-size="536,208" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="mqtt-to-db" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png?w=335&amp;h=130?w=300" data-large-file="https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png?w=335&amp;h=130?w=536" class="  wp-image-4005 aligncenter" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/mqtt-to-db.png" alt="mqtt-to-db" srcset="https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png?w=335&amp;h=130 335w, https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png?w=150&amp;h=58 150w, https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png?w=300&amp;h=116 300w, https://iotbytes.files.wordpress.com/2017/01/mqtt-to-db.png 536w" sizes="(max-width: 335px) 100vw, 335px" height="130" width="335"></p>
+<p>MQTT is a&nbsp;great protocol for Sensors to publish data to their 
+Subscribers. However, when it comes to&nbsp;analytics or reporting, you 
+need historical data. Most MQTT brokers don’t provide any built-in 
+mechanism to save MQTT data into Database. This may be the missing piece
+ in your IoT Project. So, let’s explore how can you save MQTT data from 
+Sensors into a SQL Database.</p>
+<p>You can leverage the concept of <em>MQTT</em>&nbsp;<strong><em>Wildcard Topics</em></strong>&nbsp;to
+ write a simple connector that can push MQTT Data into SQL Database. All
+ you need to do is, write a MQTT client with Wildcard Subscription and 
+based on the Message Topic insert the values into a SQL Database. Let’s 
+quickly explore basic MQTT Wildcards –</p>
+<h3>1. MQTT Wild Cards:</h3>
+<p>MQTT supports a hierarchical topic namespace. This allows application
+ designers to organize topics to simplify their management. Levels in 
+the hierarchy are delimited by the ‘/’ character, such as “<em>Home/LivingRoom/DHT22/Humidity</em>“.</p>
+<p>For subscriptions to these hierarchical&nbsp;Topics, two wildcard characters are supported:</p>
+<p style="padding-left:30px;"><strong>1.</strong> Single Level Wild Card +<br>
+<strong>2.</strong> Multi Level Wild Cards #</p>
+<h3>1.1 Single Level Wild Card (+):</h3>
+<p>A ‘+’ character represents a single level of the hierarchy and is used between delimiters. For example “<em>home/+/DHT22/Humidity</em>“.&nbsp;Following example shows the Topics filtered with ‘+’</p>
+<p><img data-attachment-id="4043" data-permalink="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/singlelevelmqtt/" data-orig-file="https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=375&amp;h=301" data-orig-size="890,716" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="singlelevelmqtt" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=375&amp;h=301?w=300" data-large-file="https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=375&amp;h=301?w=616" class="  wp-image-4043 aligncenter" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/singlelevelmqtt.png" alt="singlelevelmqtt" srcset="https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=375&amp;h=301 375w, https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=748&amp;h=602 748w, https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=150&amp;h=121 150w, https://iotbytes.files.wordpress.com/2017/01/singlelevelmqtt.png?w=300&amp;h=241 300w" sizes="(max-width: 375px) 100vw, 375px" height="301" width="375"></p>
+<h3>1.2 Multi Level Wildcard (#):</h3>
+<p>A ‘#’ character represents a complete sub-tree of the hierarchy and 
+thus must be the last character in a subscription topic string, such as “<em>Home/BedRoom/#</em>“. Following example shows the Topics filtered with ‘#’</p>
+<p><img data-attachment-id="4044" data-permalink="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/multilevelmqtt/" data-orig-file="https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=375&amp;h=300" data-orig-size="888,712" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="multilevelmqtt" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=375&amp;h=300?w=300" data-large-file="https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=375&amp;h=300?w=616" class="  wp-image-4044 aligncenter" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/multilevelmqtt.png" alt="multilevelmqtt" srcset="https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=375&amp;h=300 375w, https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=748&amp;h=600 748w, https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=150&amp;h=120 150w, https://iotbytes.files.wordpress.com/2017/01/multilevelmqtt.png?w=300&amp;h=241 300w" sizes="(max-width: 375px) 100vw, 375px" height="300" width="375"></p>
+<h3>2. Using MQTT Wildcards to create a DB Agent for MQTT Data:</h3>
+<p>As explained above Wildcard Topics will allow you to subscribe to 
+multiple MQTT Topics at the same time. When you receive data from any of
+ these Subscribed Topics, you may look into to MQTT Topic field, and 
+based on that you may call an&nbsp;appropriate function to save the 
+information into Database Table.</p>
+<p>The following diagram will explain it better –</p>
+<p><img data-attachment-id="4088" data-permalink="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/mqtt_sqlitedb/" data-orig-file="https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=616" data-orig-size="970,550" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="mqtt_sqlitedb" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=616?w=300" data-large-file="https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=616?w=616" class="alignnone size-full wp-image-4088" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/mqtt_sqlitedb.png" alt="mqtt_sqlitedb" srcset="https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=616 616w, https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=150 150w, https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=300 300w, https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png?w=768 768w, https://iotbytes.files.wordpress.com/2017/01/mqtt_sqlitedb.png 970w" sizes="(max-width: 616px) 100vw, 616px"></p>
+<h3>3. Implementation using Python:</h3>
+<p>I have implemented this logic to save MQTT Data into DB Tables using 
+Python. If you want, you may download and execute the python scripts to 
+understand it better.</p>
+<h3>3.1 Prerequisites:</h3>
+<p style="padding-left:30px;"><strong>1.</strong> Python 2.7<br>
+<strong>2.</strong> SQLite – included with Python, no need to install<br>
+<strong>3.</strong> <a href="https://pip.pypa.io/en/stable/installing/" target="_blank" rel="noopener noreferrer">Python pip</a>&nbsp;– for installing packages <strong>(<a href="https://pip.pypa.io/en/stable/installing/" target="_blank" rel="noopener noreferrer">link</a>)<br>
+4.&nbsp;</strong>Paho MQTT Client – Install it with pip command “<strong><em>pip install </em>paho<em>–</em>mqtt</strong>”<br>
+<strong>5.&nbsp;</strong>MQTT Broker – If you don’t have your own, use “<strong><em>iot.eclipse.org</em></strong>“</p>
+<h3>3.2 Code File:</h3>
+<p>You can download the Python code samples from <strong><a href="https://github.com/pradeesi/Store_MQTT_Data_in_Database" target="_blank" rel="noopener noreferrer">GitHub Repository&nbsp;</a><a href="https://github.com/pradeesi/Store_MQTT_Data_in_Database" target="_blank" rel="noopener noreferrer"><img data-attachment-id="737" data-permalink="https://iotbytes.wordpress.com/physical-shutdown-button-for-wd-my-cloud/octocat/" data-orig-file="https://iotbytes.files.wordpress.com/2016/04/octocat.png?w=21&amp;h=17" data-orig-size="800,665" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Octocat" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2016/04/octocat.png?w=21&amp;h=17?w=300" data-large-file="https://iotbytes.files.wordpress.com/2016/04/octocat.png?w=21&amp;h=17?w=616" class="  wp-image-737 alignnone" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/octocat.png" alt="Octocat" srcset="https://iotbytes.files.wordpress.com/2016/04/octocat.png?w=21&amp;h=17 21w, https://iotbytes.files.wordpress.com/2016/04/octocat.png?w=42&amp;h=34 42w" sizes="(max-width: 21px) 100vw, 21px" height="17" width="21"></a></strong>.&nbsp;Download all the files and save them in a folder. Following are four python files that you need to download –</p>
+<p style="padding-left:30px;"><strong>1. <a href="https://github.com/pradeesi/Store_MQTT_Data_in_Database/blob/master/initialize_DB_Tables.py" target="_blank" rel="noopener noreferrer">initialize_DB_Tables.py</a></strong> &nbsp;– Execute this file to create “IoT.db” sqlite database file with Tables to store data.<br>
+<strong>2. <a href="https://github.com/pradeesi/Store_MQTT_Data_in_Database/blob/master/mqtt_Publish_Dummy_Data.py" target="_blank" rel="noopener noreferrer">mqtt_Publish_Dummy_Data.py</a></strong> – Execute this file to start publishing dummy MQTT Data.<br>
+<strong>3. <a href="https://github.com/pradeesi/Store_MQTT_Data_in_Database/blob/master/mqtt_Listen_Sensor_Data.py" target="_blank" rel="noopener noreferrer">mqtt_Listen_Sensor_Data.py</a></strong>
+ – Execute this file to receive MQTT Data transmitted by 
+“mqtt_Publish_Dummy_Data.py” and save that into “IoT.db” file using 
+“store_Sensor_Data_to_DB.py” file.<br>
+<strong>4. <a href="https://github.com/pradeesi/Store_MQTT_Data_in_Database/blob/master/store_Sensor_Data_to_DB.py" target="_blank" rel="noopener noreferrer">store_Sensor_Data_to_DB.py</a></strong>
+ – No need to execute this file. It will be invoked by 
+“mqtt_Listen_Sensor_Data.py” to save the received MQTT data into 
+“IoT.db” database.</p>
+<p>The following diagram shows the relationship between python scripts and data flow direction –</p>
+<p><img data-attachment-id="4180" data-permalink="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/mqtt_to_db_python/" data-orig-file="https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=616" data-orig-size="1154,656" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="mqtt_to_db_python" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=616?w=300" data-large-file="https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=616?w=616" class="alignnone size-full wp-image-4180" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/mqtt_to_db_python.png" alt="mqtt_to_db_python" srcset="https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=616 616w, https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=150 150w, https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=300 300w, https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=768 768w, https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png?w=1024 1024w, https://iotbytes.files.wordpress.com/2017/01/mqtt_to_db_python.png 1154w" sizes="(max-width: 616px) 100vw, 616px"></p>
+<h3>3.3 Quick Demo:</h3>
+<p>Following is a quick demo with these python scripts –</p>
+<div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class="youtube-player" type="text/html" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/6TwJK-cfQb4.html" allowfullscreen="true" style="border: 0px none; display: block; margin: 0px; width: 612px; height: 344.747px;" data-ratio="0.5633116883116883" data-width="616" data-height="347"></iframe></span></div>
+<hr>
+<h2 style="text-align:center;">Additional Information (Optional)</h2>
+<hr>
+<h3>4. Bottleneck? :</h3>
+<p>In the&nbsp;case of very high MQTT message volume; using a single 
+MQTT Client subscribed to multiple topics (using Wildcard Topic), may 
+become a&nbsp;bottleneck. In such a situation you may outrun Processing 
+capabilities or Network Bandwidth of the machine hosting this MQTT 
+Client.</p>
+<h3>4.1 Processing Bottleneck:</h3>
+<p>If your Wildcard Topic is supposed to deliver very&nbsp;high volume 
+of messages, you may use AMQP Queues to hold the data temporarily. You 
+may consider using any open source AMQP implementations such as&nbsp;<a title="RabbitMQ" href="http://www.rabbitmq.com/" target="_blank" rel="nofollow noopener noreferrer" name="rabbitmq">RabbitMQ</a>.</p>
+<p>Following diagram explains this approach-</p>
+<p><img data-attachment-id="4313" data-permalink="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/bottleneck/" data-orig-file="https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=616" data-orig-size="1172,564" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="bottleneck" data-image-description="" data-medium-file="https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=616?w=300" data-large-file="https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=616?w=616" class="alignnone size-full wp-image-4313" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/bottleneck1.png" alt="bottleneck" srcset="https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=616 616w, https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=150 150w, https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=300 300w, https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=768 768w, https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png?w=1024 1024w, https://iotbytes.files.wordpress.com/2017/01/bottleneck1.png 1172w" sizes="(max-width: 616px) 100vw, 616px"></p>
+<h3>4.2 Network Bandwidth Bottleneck:</h3>
+<p>In case you hit Network Bandwidth bottleneck, you may consider adding additional NIC card to your machine and configure <a href="https://en.wikipedia.org/wiki/Link_aggregation" target="_blank" rel="noopener noreferrer">Link Aggregation</a>
+ between the Host with MQTT Client and Network Switch. If you Host or 
+Network switch doesn’t support this, you may have to rework on your 
+Wildcard Topic&nbsp;and use multiple MQTT Clients for different sets of 
+Topics.</p>
+<h3>5. Duplicated MQTT Messages:</h3>
+<p>On a network connection with problems related to packet drops and 
+jitter, MQTT Broker and Subscribers may receive the&nbsp;same message 
+multiple times (duplicate messages). To tackle this problem you should 
+use MQTT Quality of Service 2. QoS 2 will&nbsp;guarantees that each 
+message is delivered exactly once. For this approach to work optimally, 
+all the Publishers and Subscribers must use QoS value 2.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>I hope you must have got an idea about saving data from your IoT 
+sensors into the Database. If not, feel free to ask the questions <img draggable="false" class="emoji" alt="🙂" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/1f642.svg"></p>
+<hr>
+<h3>References:</h3>
+<p><a href="http://mqtt.org/" target="_blank" rel="noopener noreferrer">MQTT.Org</a></p>
+<p><a href="https://eclipse.org/paho/" target="_blank" rel="noopener noreferrer">Paho MQTT Client</a></p>
+<p><a href="https://test.mosquitto.org/" target="_blank" rel="noopener noreferrer">Mosquitto Test Server</a></p>
+<p><a href="https://iot.eclipse.org/getting-started" target="_blank" rel="noopener noreferrer">IoT.Eclipse.Org Test Server</a></p>
+<p><a href="http://www.hivemq.com/blog/mqtt-essentials-part-5-mqtt-topics-best-practices" target="_blank" rel="noopener noreferrer">MQTT Topics &amp; Best Practices</a></p>
+<p><a href="http://www.hivemq.com/blog/mqtt-sql-database" target="_blank" rel="noopener noreferrer">HiveMQ – The missing piece between MQTT and a SQL database in a M2M landscape</a></p>
+<div id="atatags-370373-5bb7c9700fe47">
+        <script type="text/javascript">
+            __ATA.cmd.push(function() {
+                __ATA.initVideoSlot('atatags-370373-5bb7c9700fe47', {
+                    sectionId: '370373',
+                    format: 'inread'
+                });
+            });
+        </script>
+    </div>		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-right:5px;margin-top:0px">
+		<div id="atatags-26942-5bb7c9700fe7d">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-26942-5bb7c9700fe7d',  {
+					collapseEmpty: 'before',
+					sectionId: '26942',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div>		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-top:0px">
+		<div id="atatags-114160-5bb7c9700fe80">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-114160-5bb7c9700fe80',  {
+					collapseEmpty: 'before',
+					sectionId: '114160',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div></div>
+				
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-3997" class="share-twitter sd-button share-icon" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-3997" class="share-facebook sd-button share-icon" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?share=facebook&amp;nb=1" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-google-plus-1"><a rel="nofollow noopener noreferrer" data-shared="sharing-google-3997" class="share-google-plus-1 sd-button share-icon" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?share=google-plus-1&amp;nb=1" target="_blank" title="Click to share on Google+"><span>Google</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-109695034-3997-5bb7c97011a30" data-src="//widgets.wp.com/likes/index.html?ver=20180319#blog_id=109695034&amp;post_id=3997&amp;origin=iotbytes.wordpress.com&amp;obj_id=109695034-3997-5bb7c97011a30" data-name="like-post-frame-109695034-3997-5bb7c97011a30"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-109695034-3997-5bb7c97011a30" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/index.html" height="55px" frameborder="0" width="100%"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div></div>
+						
+					</div> <!-- /post-content -->
+
+				</div> <!-- /post-inner -->
+
+				
+<div id="comments" class="comments-area clear-fix">
+
+	
+	<div class="comments-container">
+
+		<div class="comments-inner">
+
+			<a name="comments"></a>
+
+			<div class="comments-title-container clear-fix">
+
+				<h3 class="comments-title">
+					12 thoughts on “<span>Store MQTT Data from Sensors into SQL&nbsp;Database</span>”				</h3>
+
+				<p class="comments-title-link">
+
+					<a href="#respond">Add Comment</a>
+
+				</p>
+
+			</div><!-- /comments-title-link -->
+
+			<div class="comments">
+
+				<ol class="comment-list">
+							<li id="comment-154" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="http://www.devopsinfographics.com/general/store-mqtt-data-from-sensors-into-sql-database-iot-bytes" rel="external nofollow" class="url">Store MQTT Data from Sensors into SQL Database – IoT Bytes… – DevOps Infographics Resource Center – Programming and IT</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-163" class="comment odd alt thread-odd thread-alt depth-1 parent highlander-comment">
+			<article id="div-comment-163" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/0d97f4daa3fc5a57bafcf849a05d261b.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-0d97f4daa3fc5a57bafcf849a05d261b-0" height="32" width="32">						<b class="fn"><a href="http://nill/" rel="external nofollow" class="url">amrita</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-163">
+							<time datetime="2017-07-07T05:23:51+00:00">
+								July 7, 2017 at 5:23 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hey  Pradeep ,<br>
+Could you please  provide the link to the library’s used in you python code?<br>
+Also is there a way to push the data into phpmyadmin?</p>
+<p>Regards,<br>
+Amrita</p>
+<p id="comment-like-163" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=163&amp;_wpnonce=65e49b5e1f" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-163" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=163#respond" onclick='return addComment.moveForm( "div-comment-163", "163", "respond", "3997" )' aria-label="Reply to amrita">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-187" class="comment byuser comment-author-pradeepsi bypostauthor even depth-2 highlander-comment">
+			<article id="div-comment-187" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/df6d258d9c3bf01e078956ad442a2bee.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-df6d258d9c3bf01e078956ad442a2bee-0" height="32" width="32">						<b class="fn"><a href="http://www.iotbytes.com/" rel="external nofollow" class="url">Pradeep Singh</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-187">
+							<time datetime="2017-07-31T01:25:29+00:00">
+								July 31, 2017 at 1:25 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Paho MQTT Client – <a href="https://pypi.python.org/pypi/paho-mqtt/1.1" rel="nofollow">https://pypi.python.org/pypi/paho-mqtt/1.1</a></p>
+<p id="comment-like-187" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=187&amp;_wpnonce=a690785878" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-187" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=187#respond" onclick='return addComment.moveForm( "div-comment-187", "187", "respond", "3997" )' aria-label="Reply to Pradeep Singh">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-170" class="comment odd alt thread-even depth-1 parent highlander-comment">
+			<article id="div-comment-170" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/07dd0fcc5cba4424b5e09ec98f1f9bca.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-07dd0fcc5cba4424b5e09ec98f1f9bca-0" height="32" width="32">						<b class="fn">Carlos Roberto</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-170">
+							<time datetime="2017-07-15T14:43:23+00:00">
+								July 15, 2017 at 2:43 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>On callback “on_connect” just 3 arguments was given…</p>
+<p>def on_connect(mosq, obj, rc)</p>
+<p>The correct is 4:<br>
+def on_connect(mosq, obj, flags, rc):</p>
+<p>Regards,</p>
+<p>Carlos Roberto</p>
+<p id="comment-like-170" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=170&amp;_wpnonce=fce4e0f242" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-170" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=170#respond" onclick='return addComment.moveForm( "div-comment-170", "170", "respond", "3997" )' aria-label="Reply to Carlos Roberto">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-171" class="comment even depth-2 parent highlander-comment">
+			<article id="div-comment-171" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/07dd0fcc5cba4424b5e09ec98f1f9bca.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-07dd0fcc5cba4424b5e09ec98f1f9bca-1" height="32" width="32">						<b class="fn">Carlos Roberto</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-171">
+							<time datetime="2017-07-15T14:44:20+00:00">
+								July 15, 2017 at 2:44 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>File: mqtt_Listen_Sensor_Data.py</p>
+<p id="comment-like-171" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=171&amp;_wpnonce=100f9a4415" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-171" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=171#respond" onclick='return addComment.moveForm( "div-comment-171", "171", "respond", "3997" )' aria-label="Reply to Carlos Roberto">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-287" class="comment odd alt depth-3 highlander-comment">
+			<article id="div-comment-287" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/88e3950df6fbaef1b1fdfe6a3455a12b.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-88e3950df6fbaef1b1fdfe6a3455a12b-0" height="32" width="32">						<b class="fn">Neill</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-287">
+							<time datetime="2017-09-27T07:42:40+00:00">
+								September 27, 2017 at 7:42 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks Carlos. That helped! I also had to put do the following to initialise my DB: conn = sqlite3.connect(‘/home/user/DB_Name’)<br>
+I use Ubuntu 17.04.</p>
+<p id="comment-like-287" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=287&amp;_wpnonce=6aa1cad77c" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-287" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=287#respond" onclick='return addComment.moveForm( "div-comment-287", "287", "respond", "3997" )' aria-label="Reply to Neill">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-212" class="pingback even thread-odd thread-alt depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="http://www.happycoding.info/how-to-save-iot-sensor-data-from-mqtt-into-a-sql-database/" rel="external nofollow" class="url">How to save IoT Sensor Data from MQTT into a SQL Database | Happy Coding</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-271" class="comment odd alt thread-even depth-1 highlander-comment">
+			<article id="div-comment-271" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a1c3366567ebe37238987b2a152f3181.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-a1c3366567ebe37238987b2a152f3181-0" height="32" width="32">						<b class="fn">Tasnimun Faika</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-271">
+							<time datetime="2017-09-15T02:43:07+00:00">
+								September 15, 2017 at 2:43 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>hello ,<br>
+can u give me  an idea how i can synchronize this IOT.db with google spreadsheets?<br>
+regards<br>
+tasnim</p>
+<p id="comment-like-271" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=271&amp;_wpnonce=e1761a7b34" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-271" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=271#respond" onclick='return addComment.moveForm( "div-comment-271", "271", "respond", "3997" )' aria-label="Reply to Tasnimun Faika">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-358" class="comment even thread-odd thread-alt depth-1 parent highlander-comment">
+			<article id="div-comment-358" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/9f2b3548b21d56d11a12f45d5783b2f7.jpeg" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-9f2b3548b21d56d11a12f45d5783b2f7-0" height="32" width="32">						<b class="fn">Gary D Rubin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-358">
+							<time datetime="2017-11-27T00:10:44+00:00">
+								November 27, 2017 at 12:10 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I have a problem installing paho-mqtt using pip.  I am using Debian Linux Stretch</p>
+<p># pip install paho–mqtt<br>
+Invalid requirement: ‘paho–mqtt’<br>
+Traceback (most recent call last):<br>
+  File “/usr/local/lib/python2.7/dist-packages/pip-9.0.1-py2.7.egg/pip/req/req_install.py”, line 82, in __init__<br>
+    req = Requirement(req)<br>
+  File “/usr/local/lib/python2.7/dist-packages/pip-9.0.1-py2.7.egg/pip/_vendor/packaging/requirements.py”, line 96, in __init__<br>
+    requirement_string[e.loc:e.loc + 8]))<br>
+InvalidRequirement: Invalid requirement, parse error at “‘\xe2\x80\x93mqtt'”</p>
+<p id="comment-like-358" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=358&amp;_wpnonce=6b205ceae1" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-358" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=358#respond" onclick='return addComment.moveForm( "div-comment-358", "358", "respond", "3997" )' aria-label="Reply to Gary D Rubin">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-363" class="comment odd alt depth-2 highlander-comment">
+			<article id="div-comment-363" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/9f2b3548b21d56d11a12f45d5783b2f7.jpeg" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-9f2b3548b21d56d11a12f45d5783b2f7-1" height="32" width="32">						<b class="fn">Gary D Rubin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-363">
+							<time datetime="2017-11-30T21:12:28+00:00">
+								November 30, 2017 at 9:12 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Nevermind, I sorted it out. I had a residual issue with only 
+being able to use Python3 so I ported the code to be Python3 compliant. 
+Works great!!! Thank you!</p>
+<p id="comment-like-363" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=363&amp;_wpnonce=903731927e" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-363" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=363#respond" onclick='return addComment.moveForm( "div-comment-363", "363", "respond", "3997" )' aria-label="Reply to Gary D Rubin">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-399" class="comment even thread-even depth-1 highlander-comment">
+			<article id="div-comment-399" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/023b5dae619e1736f4e8a907cb1cdc12.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-023b5dae619e1736f4e8a907cb1cdc12-0" height="32" width="32">						<b class="fn">basti</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-399">
+							<time datetime="2018-01-03T19:52:46+00:00">
+								January 3, 2018 at 7:52 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>had 1 problem, did i have to send json mqtt request ? every time i send a normal mqtt from my esp8266 the script crashing.</p>
+<p>is there someone who already modified the code to parse data without ison ??</p>
+<p id="comment-like-399" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=399&amp;_wpnonce=b1c330e0f8" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-399" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=399#respond" onclick='return addComment.moveForm( "div-comment-399", "399", "respond", "3997" )' aria-label="Reply to basti">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-402" class="comment byuser comment-author-trhody odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<article id="div-comment-402" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/c393a9c3708de48a4f2e6fecb47ba138.png" class="avatar avatar-32 grav-hashed grav-hijack" id="grav-c393a9c3708de48a4f2e6fecb47ba138-0" height="32" width="32">						<b class="fn">trhody</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#comment-402">
+							<time datetime="2018-01-05T20:57:05+00:00">
+								January 5, 2018 at 8:57 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hello  can the mosquitto client/broker be used instead of Paho?<br>
+Thanks<br>
+Tom</p>
+<p id="comment-like-402" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?like_comment=402&amp;_wpnonce=eb41f6f267" class="comment-like-link needs-login" rel="nofollow" data-blog="109695034"><span>Like</span></a><span id="comment-like-count-402" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/?replytocom=402#respond" onclick='return addComment.moveForm( "div-comment-402", "402", "respond", "3997" )' aria-label="Reply to trhody">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+				</ol><!-- .comment-list -->
+
+				
+			</div> <!-- /comments -->
+
+		</div> <!-- /comments-inner -->
+
+	</div> <!-- /comments-container -->
+
+		<div id="respond" class="comment-respond js">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://iotbytes.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<input id="highlander_comment_nonce" name="highlander_comment_nonce" value="f7e0b50641" type="hidden"><input name="_wp_http_referer" value="/store-mqtt-data-from-sensors-into-sql-database/" type="hidden">
+<input name="hc_post_as" id="hc_post_as" value="guest" type="hidden">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px none; padding: 0px; box-sizing: content-box; overflow-wrap: break-word; height: 0px !important; min-height: 0px !important; overflow: hidden; transition: none 0s ease 0s; font-family: &quot;Lato&quot;, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none; word-spacing: 0px; text-indent: 0px; line-height: 19.6px; width: 594px;" class="autosizejs ">Enter your comment here...</textarea><textarea id="comment" name="comment" title="Enter your comment here..." placeholder="Enter your comment here..." style="height: 40px; overflow: hidden; overflow-wrap: break-word; resize: none;"></textarea></div>
+</div>
+
+<div id="comment-form-identity" style="display: none;">
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" class="nascar-signin-link" title="Login via Guest">
+									</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" class="nascar-signin-link" title="Login via WordPress.com">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"></path></g></svg>				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a.html" scrolling="no" allowtransparency="true" seamless="seamless" height="24" frameborder="0" width="24"></iframe>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" class="nascar-signin-link" title="Login via Twitter">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"></path></g></svg>				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" class="nascar-signin-link" title="Login via Facebook">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"></path></g></svg>				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Gravatar" class="no-grav" width="25">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email"></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text"></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url"></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/ad516503a11cd5ca435acc9bb6523536.png" alt="WordPress.com Logo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" type="hidden">
+				<input name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" type="hidden">
+				<input name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" type="hidden">
+						<p class="comment-form-posting-as pa-wordpress">
+			<strong></strong>
+			You are commenting using your WordPress.com account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'wordpress'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"></path></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Google+ photo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" type="hidden">
+				<input name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" type="hidden">
+				<input name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" type="hidden">
+						<p class="comment-form-posting-as pa-googleplus">
+			<strong></strong>
+			You are commenting using your Google+ account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'googleplus'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" x="0px" y="0px" viewBox="0 0 60 60"><path fill="#519bf7" d="M56.3,30c0,-1.6 -0.2,-3.4 -0.6,-5h-3.1H42.2H30v10.6h14.8C44,39.3 42,42 39.1,43.9l8.8,6.8C53,46 56.3,39 56.3,30z"></path><path fill="#3db366" d="M30,57.5c6.7,0 13.1,-2.4 17.9,-6.8l-8.8,-6.8c-2.5,1.6 -5.6,2.4 -9.1,2.4c-7.2,0 -13.3,-4.7 -15.4,-11.2l-9.3,7.1C9.8,51.3 19.1,57.5 30,57.5z"></path><path fill="#fdc600" d="M5.3,42.2l9.3,-7.1c-0.5,-1.6 -0.8,-3.3 -0.8,-5.1s0.3,-3.5 0.8,-5.1l-9.3,-7.1C3.5,21.5 2.5,25.6 2.5,30S3.5,38.5 5.3,42.2z"></path><path fill="#f15b44" d="M40.1,17.4l8,-8C43.3,5.1 37,2.5 30,2.5C19.1,2.5 9.8,8.7 5.3,17.8l9.3,7.1c2.1,-6.5 8.2,-11.1 15.4,-11.1C33.9,13.7 37.4,15.1 40.1,17.4z"></path></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Twitter picture" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" type="hidden">
+				<input name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" type="hidden">
+				<input name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" type="hidden">
+						<p class="comment-form-posting-as pa-twitter">
+			<strong></strong>
+			You are commenting using your Twitter account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'twitter'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"></path></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Facebook photo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" type="hidden">
+				<input name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" type="hidden">
+				<input name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" type="hidden">
+						<p class="comment-form-posting-as pa-facebook">
+			<strong></strong>
+			You are commenting using your Facebook account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'facebook'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"></path></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe" style="display: none;">
+	<p class="comment-subscription-form"><input name="subscribe" id="subscribe" value="subscribe" style="width: auto;" type="checkbox"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit" style="display: none;"><input name="submit" id="comment-submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="3997" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="54ad9c6293" type="hidden"></p>
+<input name="genseq" value="1538771312" type="hidden">
+<p style="display: none;"></p>			<input id="ak_js" name="ak_js" value="1538771313133" type="hidden"></form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments -->
+			</article> <!-- /page -->
+			
+		
+	</main> <!-- /content -->
+
+	
+<div class="sidebar">
+	<aside id="authors-5" class="widget widget_authors"><div class="widget-content"><h3 class="widget-title">Author:</h3><ul><li><img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/df6d258d9c3bf01e078956ad442a2bee_002.png" class="avatar avatar-48 grav-hashed grav-hijack" id="grav-df6d258d9c3bf01e078956ad442a2bee-1" height="48" width="48"> <strong>Pradeep Singh</strong></li></ul></div><div class="clear"></div></aside><aside id="blog-stats-3" class="widget widget_blog-stats"><div class="widget-content"><h3 class="widget-title">Blog Stats:</h3>		<ul>
+			<li>360,252 hits</li>
+		</ul>
+		</div><div class="clear"></div></aside><aside id="top-posts-3" class="widget widget_top-posts"><div class="widget-content"><h3 class="widget-title">Top Posts &amp; Pages:</h3><ul>				<li>
+										<a href="https://iotbytes.wordpress.com/nodemcu-pinout/" class="bump-view" data-bump-view="tp">
+						NodeMCU Pinout					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/" class="bump-view" data-bump-view="tp">
+						Store MQTT Data from Sensors into SQL Database					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/3-3v-power-supply-for-esp-8266/" class="bump-view" data-bump-view="tp">
+						3.3v Step Down Power Supply For ESP 8266					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/setting-up-docker-on-raspberry-pi-and-running-hello-world-container/" class="bump-view" data-bump-view="tp">
+						Setup Docker on Raspberry Pi and Run hello-world Container					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/sqlite-db-on-raspberry-pi/" class="bump-view" data-bump-view="tp">
+						SQLite DB on Raspberry Pi					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/esp8266-pinouts/" class="bump-view" data-bump-view="tp">
+						ESP8266 Pinout					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/install-microcore-tiny-linux-on-local-disk/" class="bump-view" data-bump-view="tp">
+						Install Tiny Core Linux on Local Disk (Frugal)					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/wifi-configuration-on-nodemcu/" class="bump-view" data-bump-view="tp">
+						NodeMCU Wifi Configuration					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/create-your-first-docker-container-for-raspberry-pi-to-blink-an-led/" class="bump-view" data-bump-view="tp">
+						Create a Docker Container for Raspberry Pi to Blink an LED					</a>
+										</li>
+								<li>
+										<a href="https://iotbytes.wordpress.com/capturing-and-analysing-mqtt-packets/" class="bump-view" data-bump-view="tp">
+						Capturing and Analysing MQTT Packets					</a>
+										</li>
+				</ul></div><div class="clear"></div></aside><aside id="pages-5" class="widget widget_pages"><div class="widget-content"><h3 class="widget-title">All POSTS &amp; PAGES:</h3>		<ul>
+			<li class="page_item page-item-14"><a href="https://iotbytes.wordpress.com/3-3v-power-supply-for-esp-8266/">3.3v Step Down Power Supply For ESP&nbsp;8266</a></li>
+<li class="page_item page-item-2"><a href="https://iotbytes.wordpress.com/about-2/">About Me</a></li>
+<li class="page_item page-item-10111"><a href="https://iotbytes.wordpress.com/add-tp-link-usb-3-0-ethernet-adapter-to-intel-nuc-with-vmware-esxi/">Add TP-Link USB 3.0 Ethernet Adapter to Intel NUC with VMware&nbsp;ESXi</a></li>
+<li class="page_item page-item-1811"><a href="https://iotbytes.wordpress.com/application-protocols-for-iot/">Application Protocols for&nbsp;IoT</a></li>
+<li class="page_item page-item-8761"><a href="https://iotbytes.wordpress.com/assign-persistent-static-ip-address-to-microcore-tiny-linux/">Assign Persistent Static IP Address to Tiny Core&nbsp;Linux</a></li>
+<li class="page_item page-item-4600"><a href="https://iotbytes.wordpress.com/aws-iot-cli-on-raspberry-pi/">AWS IoT CLI on Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-3028"><a href="https://iotbytes.wordpress.com/basic-iot-actuators/">Basic IoT Actuators</a></li>
+<li class="page_item page-item-2569"><a href="https://iotbytes.wordpress.com/basic-sensors-for-iot/">Basic IoT Sensors</a></li>
+<li class="page_item page-item-5205"><a href="https://iotbytes.wordpress.com/aws-iot-policy-basics/">Basics of AWS IoT&nbsp;Policies</a></li>
+<li class="page_item page-item-10626"><a href="https://iotbytes.wordpress.com/basics-of-container-registry-repository-tags-and-docker-hub/">Basics of Container Registry, Repository, Tags, and Docker&nbsp;Hub</a></li>
+<li class="page_item page-item-7301"><a href="https://iotbytes.wordpress.com/basics-of-containers-docker-and-container-orchestration/">Basics of Containers, Docker, and Container&nbsp;Orchestration</a></li>
+<li class="page_item page-item-10996"><a href="https://iotbytes.wordpress.com/bitcoin-mining-with-nvidia-geforce-gtx-760-gpu-gigabyte-brix/">Bitcoin Mining with NVIDIA GeForce GTX 760 GPU (Gigabyte&nbsp;Brix)</a></li>
+<li class="page_item page-item-10228"><a href="https://iotbytes.wordpress.com/blink-leds-with-raspberry-pi/">Blink an LED with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-853"><a href="https://iotbytes.wordpress.com/capturing-and-analysing-mqtt-packets/">Capturing and Analysing MQTT&nbsp;Packets</a></li>
+<li class="page_item page-item-9529"><a href="https://iotbytes.wordpress.com/change-picore-boot-codes-boot-options/">Change piCore (Tiny Core) Linux Boot Codes (Boot&nbsp;Options)</a></li>
+<li class="page_item page-item-1042"><a href="https://iotbytes.wordpress.com/checking-wifi-status-before-performing-any-task-on-esp8266/">Checking WiFi Status Before Performing any Operation on&nbsp;ESP8266</a></li>
+<li class="page_item page-item-1684"><a href="https://iotbytes.wordpress.com/popular-hardware-platforms-for-iot/">Common IoT Hardware&nbsp;Platforms</a></li>
+<li class="page_item page-item-8415"><a href="https://iotbytes.wordpress.com/configure-ssh-server-on-microcore-tiny-linux/">Configure SSH Server on Tiny Core Linux using&nbsp;openSSH</a></li>
+<li class="page_item page-item-8840"><a href="https://iotbytes.wordpress.com/configure-microcore-tiny-linux-as-router/">Configure Tiny Core Linux as an IP&nbsp;Router</a></li>
+<li class="page_item page-item-8599"><a href="https://iotbytes.wordpress.com/configure-dhcp-server-on-microcore-tiny-linux/">Configure Tiny Core Linux as DHCP Server using&nbsp;udhcpd</a></li>
+<li class="page_item page-item-9232"><a href="https://iotbytes.wordpress.com/configure-microcore-tiny-linux-as-nat-p-nat-router-using-iptables/">Configure Tiny Core Linux as NAT (P-NAT) Router using&nbsp;iptables</a></li>
+<li class="page_item page-item-11144"><a href="https://iotbytes.wordpress.com/connect-configure-and-test-usb-microphone-and-speaker-with-raspberry-pi/">Connect, Configure and Test USB Microphone and Speaker with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-10"><a href="https://iotbytes.wordpress.com/contact/">Contact Me</a></li>
+<li class="page_item page-item-9997"><a href="https://iotbytes.wordpress.com/control-raspberry-pi-gpio-pins-with-picore-and-rpi-gpio/">Control Raspberry Pi GPIO Pins with piCore and&nbsp;RPi.GPIO</a></li>
+<li class="page_item page-item-10321"><a href="https://iotbytes.wordpress.com/create-your-first-docker-container-for-raspberry-pi-to-blink-an-led/">Create a Docker Container for Raspberry Pi to Blink an&nbsp;LED</a></li>
+<li class="page_item page-item-9613"><a href="https://iotbytes.wordpress.com/picore-tiny-core-zswap-and-swap-disk/">Create new Swap Disk and Disable Zswap on&nbsp;PiCore</a></li>
+<li class="page_item page-item-5425"><a href="https://iotbytes.wordpress.com/device-shadows-part-1-basics/">Device Shadows – Part 1 (MQTT Topics and REST&nbsp;APIs)</a></li>
+<li class="page_item page-item-6075"><a href="https://iotbytes.wordpress.com/device-shadows-part-2-mqtt-based-prototype-using-pytraspberry-pi/">Device Shadows – Part 2 (MQTT Based Prototype using Python and Raspberry&nbsp;Pi)</a></li>
+<li class="page_item page-item-6416"><a href="https://iotbytes.wordpress.com/device-shadows-part-3-restful-api-based-prototype-using-python/">Device Shadows – Part 3 (RESTful API Based Prototype using&nbsp;Python)</a></li>
+<li class="page_item page-item-11175"><a href="https://iotbytes.wordpress.com/dial-up-modems-and-iot/">Do Analog Dial-Up Modems Still Have Some Relevance in the 4G / 5G&nbsp;World?</a></li>
+<li class="page_item page-item-7095"><a href="https://iotbytes.wordpress.com/docker-containers-and-iot-applications/">Docker Containers and IoT&nbsp;Applications</a></li>
+<li class="page_item page-item-10939"><a href="https://iotbytes.wordpress.com/ds18b20-temperature-sensor-with-arduino/">DS18B20 Temperature Sensor with&nbsp;Arduino</a></li>
+<li class="page_item page-item-74"><a href="https://iotbytes.wordpress.com/esp8266-2/">ESP8266</a></li>
+<li class="page_item page-item-740"><a href="https://iotbytes.wordpress.com/esp8266-flashing-and-programming-cradle/">ESP8266 Flashing and Programming&nbsp;Cradle</a></li>
+<li class="page_item page-item-577"><a href="https://iotbytes.wordpress.com/esp8266-pinouts/">ESP8266 Pinout</a></li>
+<li class="page_item page-item-10919"><a href="https://iotbytes.wordpress.com/getting-started-with-arduino/">Getting Started with&nbsp;Arduino</a></li>
+<li class="page_item page-item-5110"><a href="https://iotbytes.wordpress.com/starting-with-aws-iot/">Getting Started with AWS&nbsp;IoT</a></li>
+<li class="page_item page-item-8071"><a href="https://iotbytes.wordpress.com/hack-single-bay-wd-my-cloud-nas-drive-to-create-nfs-share-for-vmware-vcenter-datastore/">Hack Single Bay WD My Cloud NAS Drive to Create NFS Share for VMware vCenter&nbsp;Datastore</a></li>
+<li class="page_item page-item-10994"><a href="https://iotbytes.wordpress.com/incoming-call-details-logger-with-raspberry-pi/">Incoming Call Details Logger with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-526"><a href="https://iotbytes.wordpress.com/esp8266/">Initial Setup for&nbsp;ESP8266</a></li>
+<li class="page_item page-item-246"><a href="https://iotbytes.wordpress.com/first-time-setup-for-nodemcu/">Initial Setup for&nbsp;NodeMCU</a></li>
+<li class="page_item page-item-8272"><a href="https://iotbytes.wordpress.com/install-microcore-tiny-linux-on-local-disk/">Install Tiny Core Linux on Local Disk&nbsp;(Frugal)</a></li>
+<li class="page_item page-item-10945"><a href="https://iotbytes.wordpress.com/ldr-light-dependent-resistor-based-light-sensor-using-arduino/">LDR (Light Dependent Resistor) Based Light Sensor using&nbsp;Arduino</a></li>
+<li class="page_item page-item-653"><a href="https://iotbytes.wordpress.com/">Let’s Decipher IoT…</a></li>
+<li class="page_item page-item-10934"><a href="https://iotbytes.wordpress.com/managing-arduino-libraries/">Managing Arduino Libraries</a></li>
+<li class="page_item page-item-426"><a href="https://iotbytes.wordpress.com/managing-files-with-nodemcu/">Managing Files with&nbsp;NodeMCU</a></li>
+<li class="page_item page-item-11107"><a href="https://iotbytes.wordpress.com/modem-events-and-dtmf-tone-detection-with-raspberry-pi/">Modem Events and DTMF Tone Detection with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-1348"><a href="https://iotbytes.wordpress.com/monitor-ups-power-events-on-mqtt-client/">Monitor UPS Power Events on MQTT&nbsp;Client</a></li>
+<li class="page_item page-item-1184"><a href="https://iotbytes.wordpress.com/mosquitto-mqtt-broker-on-raspberry-pi/">Mosquitto MQTT Broker on Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-121"><a href="https://iotbytes.wordpress.com/mqtt/">MQTT</a></li>
+<li class="page_item page-item-462"><a href="https://iotbytes.wordpress.com/physical-shutdown-button-for-wd-my-cloud/">MQTT Based Shutdown Button for WD My&nbsp;Cloud</a></li>
+<li class="page_item page-item-3811"><a href="https://iotbytes.wordpress.com/mqtt-over-websockets/">MQTT over WebSockets</a></li>
+<li class="page_item page-item-4808"><a href="https://iotbytes.wordpress.com/mqtt-with-aws-iot-using-python-and-paho/">MQTT with AWS IoT Platform using Python and&nbsp;Paho</a></li>
+<li class="page_item page-item-218"><a href="https://iotbytes.wordpress.com/mqtt-with-nodemcu/">MQTT with NodeMCU</a></li>
+<li class="page_item page-item-92"><a href="https://iotbytes.wordpress.com/nodemcu/">NodeMCU</a></li>
+<li class="page_item page-item-633"><a href="https://iotbytes.wordpress.com/nodemcu-pinout/">NodeMCU Pinout</a></li>
+<li class="page_item page-item-314"><a href="https://iotbytes.wordpress.com/wifi-configuration-on-nodemcu/">NodeMCU Wifi Configuration</a></li>
+<li class="page_item page-item-2378"><a href="https://iotbytes.wordpress.com/open-source-tools-for-iot-software-applications/">Open Source Tools for IoT Software&nbsp;Applications</a></li>
+<li class="page_item page-item-158"><a href="https://iotbytes.wordpress.com/paho-mqtt-with-python/">Paho MQTT with&nbsp;Python</a></li>
+<li class="page_item page-item-9385"><a href="https://iotbytes.wordpress.com/picore-tiny-core-linux-on-raspberry-pi/">piCore (Tiny Core) Linux on Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-11052"><a href="https://iotbytes.wordpress.com/play-audio-file-on-phone-line-with-raspberry-pi/">Play Audio File on Phone Line with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-4382"><a href="https://iotbytes.wordpress.com/programmatically-tweet-from-raspberry-pi-using-python-script/">Post a Tweet on Twitter from Raspberry Pi using Python&nbsp;Script</a></li>
+<li class="page_item page-item-3396"><a href="https://iotbytes.wordpress.com/python-flask-web-application-on-raspberry-pi-with-nginx-and-uwsgi/">Python Flask Web Application on Raspberry Pi with NGINX and&nbsp;uWSGI</a></li>
+<li class="page_item page-item-10968"><a href="https://iotbytes.wordpress.com/python-script-to-autodetect-modem-com-port-on-raspberry-pi/">Python Script to Autodetect Modem COM Port on Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-10975"><a href="https://iotbytes.wordpress.com/python-script-to-reset-usb-modem-com-port-on-raspberry-pi/">Python Script to Reset USB Modem COM Port on Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-105"><a href="https://iotbytes.wordpress.com/raspberrypi/">Raspberry Pi</a></li>
+<li class="page_item page-item-9857"><a href="https://iotbytes.wordpress.com/make-raspberry-pi-3-built-in-wifi-module-work-with-picore/">Raspberry Pi 3 Built-in WiFi Module with&nbsp;piCore</a></li>
+<li class="page_item page-item-6745"><a href="https://iotbytes.wordpress.com/raspberry-pi-cluster-for-docker-containers/">Raspberry Pi Cluster for Docker&nbsp;Containers</a></li>
+<li class="page_item page-item-3147"><a href="https://iotbytes.wordpress.com/raspberry-pi-ip-network-configuration/">Raspberry Pi IP Network&nbsp;Configuration</a></li>
+<li class="page_item page-item-1128"><a href="https://iotbytes.wordpress.com/raspberry-pi-pinout/">Raspberry Pi Pinout</a></li>
+<li class="page_item page-item-11073"><a href="https://iotbytes.wordpress.com/record-audio-from-phone-line-with-raspberry-pi/">Record Audio from Phone Line with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-11131"><a href="https://iotbytes.wordpress.com/send-dtmf-tones-with-raspberry-pi/">Send DTMF Tones with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-4316"><a href="https://iotbytes.wordpress.com/programmatically-send-e-mail-from-raspberry-pi-using-python-and-gmail/">Send Email from Raspberry Pi using Python Script and Gmail&nbsp;SMTP</a></li>
+<li class="page_item page-item-7904"><a href="https://iotbytes.wordpress.com/setting-up-docker-on-raspberry-pi-and-running-hello-world-container/">Setup Docker on Raspberry Pi and Run hello-world&nbsp;Container</a></li>
+<li class="page_item page-item-3640"><a href="https://iotbytes.wordpress.com/sqlite-db-on-raspberry-pi/">SQLite DB on Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-3997 current_page_item"><a href="https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/">Store MQTT Data from Sensors into SQL&nbsp;Database</a></li>
+<li class="page_item page-item-9836"><a href="https://iotbytes.wordpress.com/tiny-core-persistance-notes/">Tiny Core Persistence –&nbsp;Notes</a></li>
+<li class="page_item page-item-10951"><a href="https://iotbytes.wordpress.com/usb-analog-modem-with-raspberry-pi/">USB Analog Modem with Raspberry&nbsp;Pi</a></li>
+<li class="page_item page-item-1605"><a href="https://iotbytes.wordpress.com/what-is-iot/">What is IoT?</a></li>
+<li class="page_item page-item-1902"><a href="https://iotbytes.wordpress.com/network-access-protocols-for-iot/">Wireless Networking Technologies for&nbsp;IoT</a></li>
+		</ul>
+			</div><div class="clear"></div></aside><aside id="search-6" class="widget widget_search"><div class="widget-content">
+<form method="get" class="search-form" action="https://iotbytes.wordpress.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input class="search-field" placeholder="Search" name="s" title="Search for:" type="search">
+	</label>
+	<button type="submit" class="search-button"><span class="fa fw fa-search"></span><span class="screen-reader-text">Search</span></button>
+</form>
+</div><div class="clear"></div></aside><aside id="follow_button_widget-3" class="widget widget_follow_button_widget"><div class="widget-content">
+		<iframe src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/index_002.html" scrolling="no" height="20" frameborder="0" width="100%"></iframe>
+		<script type="text/javascript">(function(d){var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');p.type = 'text/javascript';p.async = true;p.src = '//widgets.wp.com/platform.js';f.parentNode.insertBefore(p,f);}(document));</script>
+
+		</div><div class="clear"></div></aside>		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">
+							<div style="padding-bottom:15px;width:300px;height:250px;">
+		<div id="atatags-286348-5bb7c9701dfbb">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-286348-5bb7c9701dfbb',  {
+					collapseEmpty: 'before',
+					sectionId: '286348',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div>
+				</div>
+				
+			</div>
+		</div></div>
+
+	<div class="clear"></div>
+
+</div> <!-- /wrapper.section-inner -->
+
+
+<footer class="site-footer">
+
+	<div class="section-inner">
+		<a href="#" class="to-the-top" title="To the top"><div class="fa fw fa-arrow-up"></div></a>
+		<p class="copyright">© 2018 <a href="https://iotbytes.wordpress.com/" title="IoT Bytes — Bits and Bytes of IoT" rel="home">IoT Bytes</a></p>
+		<p class="attribution"><a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com.</a></p>
+	</div>
+
+</footer> <!-- /site-footer -->
+
+<!--  -->
+<script type="text/javascript" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/wpgroho.js"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-0d97f4daa3fc5a57bafcf849a05d261b">
+	</div>
+	<div class="grofile-hash-map-df6d258d9c3bf01e078956ad442a2bee">
+	</div>
+	<div class="grofile-hash-map-07dd0fcc5cba4424b5e09ec98f1f9bca">
+	</div>
+	<div class="grofile-hash-map-88e3950df6fbaef1b1fdfe6a3455a12b">
+	</div>
+	<div class="grofile-hash-map-a1c3366567ebe37238987b2a152f3181">
+	</div>
+	<div class="grofile-hash-map-9f2b3548b21d56d11a12f45d5783b2f7">
+	</div>
+	<div class="grofile-hash-map-023b5dae619e1736f4e8a907cb1cdc12">
+	</div>
+	<div class="grofile-hash-map-c393a9c3708de48a4f2e6fecb47ba138">
+	</div>
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/iotbytes.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/iotbytes.wordpress.com\/wp-login.php?action=logout&_wpnonce=d4b129cb53","homeURL":"https:\/\/iotbytes.wordpress.com\/","postID":"3997","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a_002"></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" type="submit">
+				<input id="carousel-reblog-blog-id" value="109695034" type="hidden">
+				<input id="carousel-reblog-blog-url" value="https://iotbytes.wordpress.com" type="hidden">
+				<input id="carousel-reblog-blog-title" value="IoT Bytes" type="hidden">
+				<input id="carousel-reblog-post-url" value="" type="hidden">
+				<input id="carousel-reblog-post-title" value="" type="hidden">
+			</div>
+
+			<input id="_wpnonce" name="_wpnonce" value="9d12c8835e" type="hidden"><input name="_wp_http_referer" value="/store-mqtt-data-from-sensors-into-sql-database/" type="hidden">		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/iotbytes.wordpress.com\/store-mqtt-data-from-sensors-into-sql-database\/":3997};
+	</script>
+				<link rel="stylesheet" id="all-css-0-3" href="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a_004.css" type="text/css" media="all">
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript">
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = {"siteID":"109695034","siteName":"IoT Bytes","siteURL":"http:\/\/iotbytes.wordpress.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/c65ffe0f4a0d17cf7501d6033ecd052f?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/rowling","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/iotbytes.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F","themeURL":"https:\/\/wordpress.com\/theme\/rowling\/","xhrURL":"https:\/\/iotbytes.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"4f5799c424","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"a4907502a0\" \/>","referer":"https:\/\/iotbytes.wordpress.com\/store-mqtt-data-from-sensors-into-sql-database\/","canFollow":"","feedID":"46801896","statusMessage":"","customizeLink":"https:\/\/iotbytes.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F","postID":"3997","shortlink":"https:\/\/wp.me\/P7qgGK-12t","canEditPost":"","editLink":"https:\/\/wordpress.com\/page\/iotbytes.wordpress.com\/3997","statsLink":"https:\/\/wordpress.com\/stats\/post\/3997\/iotbytes.wordpress.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Rowling","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/iotbytes.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/iotbytes.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"cd829a3a08","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/iotbytes.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F","blog_id":"109695034","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=109695034&v=wpcom&tz=0&user_id=0&subd=iotbytes","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/a_003"></script><div class="widget widget_eu_cookie_law_widget" style="display: block;"><div class="hide-on-button ads-active" data-hide-timeout="30" data-consent-expiration="180" id="eu-cookie-law">
+	<form method="post">
+		<input value="Close and accept" class="accept" type="submit">
+
+		Privacy &amp; Cookies: This site uses cookies. By continuing to use this website, you agree to their use. <br>
+To find out more, including how to control cookies, see here:
+		<a href="https://automattic.com/cookies">
+			Cookie Policy		</a>
+ </form>
+</div>
+</div><div id="actionbar" class="actnbr-pub-rowling actnbr-has-follow"><ul><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename actnbr-hidden"><a href="http://iotbytes.wordpress.com/"><img alt="" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/c65ffe0f4a0d17cf7501d6033ecd052f.png" class="avatar avatar-50" height="50" width="50"> IoT Bytes</a></li> 				   	<li class="actnbr-folded-customize actnbr-hidden"><a href="https://iotbytes.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Customize<span></span></span></a></li> 				     					<li class="actnbr-signup actnbr-hidden"><a href="https://wordpress.com/start/">Sign up</a></li> 				    <li class="actnbr-login actnbr-hidden"><a href="https://iotbytes.wordpress.com/wp-login.php?redirect_to=https%3A%2F%2Fiotbytes.wordpress.com%2Fstore-mqtt-data-from-sensors-into-sql-database%2F">Log in</a></li> 				     				    <li class="actnbr-shortlink actnbr-hidden"><a href="https://wp.me/P7qgGK-12t">Copy shortlink</a></li> 				    <li class="flb-report actnbr-hidden"><a href="http://en.wordpress.com/abuse/">Report this content</a></li> 				     				     				    <li class="actnbr-subs actnbr-hidden"><a href="https://subscribe.wordpress.com/">Manage subscriptions</a></li> 				     			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "iotbytes.wordpress.com";
+	</script>
+	<script type="text/javascript" defer="defer" src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/725X1342.bin"></script>		<iframe src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/w.js" type="text/javascript" async="" defer="defer"></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'109695034','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'109695034','v':'wpcom','tz':'0','user_id':'0','post':'3997','subd':'iotbytes'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWFnNncxc1tjZG9XVXhRRD1QY2ZQY1U1P1R+dFtBbC9jPy1bX1RHWm1zR2doUmszLkNncD1NeEhkbnxkRyVHbmtJd0xWVHhiZnRWUHRrbURNJXV0bCUlcXx8bWdjal83Q0c/W34yWE9bSXVWcUZmRjB5cjR1cXl5SVhUeks4R1BMbkZINGpERy4rST1NTjZGMWZTcXctY3dTTGF8YlVsbVVOc35qVTU/fkhVcHlWQndfdlNWaWwuOCZuc3ovJSY3NXJKWVNKVGZEWU5sdlp6JnxKTXBTMDYuV3FDa3NMMUowbGxNLCxLekUzZzJrcyxjWGtzdnFhU18mKw=='}]);
+_stq.push([ 'clickTrackerInit', '109695034', '3997' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+
+
+<div class="comment-likes-overlay" style="display: none;"></div><img src="Store%20MQTT%20Data%20from%20Sensors%20into%20SQL%20Database%20%E2%80%93%20IoT%20Bytes_files/g.gif" alt=":)" id="wpstats"></body></html>
+<!--
+	generated in 0.198 seconds
+	127472 bytes batcached for 300 seconds
+-->

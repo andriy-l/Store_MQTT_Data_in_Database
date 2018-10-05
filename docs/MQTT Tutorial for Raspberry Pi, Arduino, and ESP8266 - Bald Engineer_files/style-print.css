@@ -1,0 +1,75 @@
+#attentionGrabberWrap, #attentionGrabber, #attentionGrabberWrap #openAttentionGrabber, #attentionGrabberWrap #openAttentionGrabber span,
+#headernav,
+#masthead hgroup, #masthead .header-text
+.site-header .headshot,
+#categories-menu, .menu-secondary-categories-container,
+#top_search,
+#search,
+.nrelate,
+.sharebar,
+.site-navigation,
+.disclosure,
+#comments-policy, #comments, #respond, #disqus, #disqus_thread,
+#secondary,
+#footer,
+.site-credits .sep,
+.site-credits .poweredby,
+.menu-final-menu-container,
+.query-stats,
+#footerad {
+	display: none;
+}
+
+.entry-footer,
+.site-credits {
+	display: none;
+}
+
+.slide-post, .video-post {
+	display: none;
+}
+
+.site-header {
+	display: none;
+	padding-left: 0;
+	padding-right: 0;
+}
+.printable-logo {
+	display: block;
+	margin: 1em auto;
+	text-align: center;
+	width: 96%;
+}
+.printable-logo img {
+	height: auto;
+	width: 100%;
+}
+.site-logo img {
+/*	margin: 0 auto;*/
+	max-width: 75%;
+}
+
+#main {
+	background: none;
+	border: none;
+	padding: 0;
+}
+#main .hentry {
+	border: none;
+	padding: 0;
+}
+
+
+#main .hentry a {
+	text-decoration: underline;
+}
+#main .hentry a:link:after,
+#main .hentry a:visited:after {
+	content: " (" attr(href) ") ";
+	font-size: 0.8em;
+	text-decoration: none;
+}
+#main .photo-credit a:link:after,
+#main .photo-credit a:visited:after {
+	content: "";
+}

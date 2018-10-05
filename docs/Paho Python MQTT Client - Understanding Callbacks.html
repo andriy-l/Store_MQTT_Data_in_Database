@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://www.steves-internet-guide.com/xmlrpc.php">
+<link rel="shortcut icon" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/favicon.ico" type="image/x-icon">
+<title>Paho Python MQTT Client - Understanding Callbacks</title>
+
+<!-- All in One SEO Pack 2.8 by Michael Torbert of Semper Fi Web Design[339,437] -->
+<meta name="description" content="The Paho Python MQTT client. provides a variety of callbacks that you will need to use. In this tutorial we take a closer look at callbacks and how they work.">
+
+<link rel="canonical" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/">
+			<script type="text/javascript">
+				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+				ga('create', 'UA-654814-2', 'auto');
+				// Plugins
+				
+				ga('send', 'pageview');
+			</script>
+			<script async="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/analytics.js"></script>
+			<!-- /all in one seo pack -->
+<link rel="dns-prefetch" href="http://www.steves-internet-guide.com/">
+<link rel="dns-prefetch" href="http://w.sharethis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Steve's Internet Guide » Feed" href="http://www.steves-internet-guide.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Steve's Internet Guide » Comments Feed" href="http://www.steves-internet-guide.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Steve's Internet Guide » Paho Python MQTT Client – Understanding Callbacks Comments Feed" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.steves-internet-guide.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="validate-engine-css-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/validationEngine.css" type="text/css" media="all">
+<link rel="stylesheet" id="wellington-custom-fonts-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/custom-fonts.css" type="text/css" media="all">
+<link rel="stylesheet" id="vscf_style-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/vscf-style.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-polls-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/polls-css.css" type="text/css" media="all">
+<style id="wp-polls-inline-css" type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background-image: url('http://www.steves-internet-guide.com/wp-content/plugins/wp-polls/images/default/pollbg.gif');
+	border: 1px solid #c8c8c8;
+}
+
+</style>
+<link rel="stylesheet" id="wpProQuiz_front_style-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/wpProQuiz_front.css" type="text/css" media="all">
+<link rel="stylesheet" id="wellington-stylesheet-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/style.css" type="text/css" media="all">
+<style id="wellington-stylesheet-inline-css" type="text/css">
+.site-title, .site-description, .type-post .entry-footer .entry-categories, .type-post .entry-footer .entry-tags, .type-post .entry-footer .post-navigation { position: absolute; clip: rect(1px, 1px, 1px, 1px); width: 1px; height: 1px; overflow: hidden; }
+</style>
+<link rel="stylesheet" id="genericons-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="themezee-related-posts-css" href="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/themezee-related-posts.css" type="text/css" media="all">
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/jquery.js"></script>
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/jquery-migrate.js"></script>
+<!--[if lt IE 9]>
+<script type='text/javascript' src='http://www.steves-internet-guide.com/wp-content/themes/wellington/assets/js/html5shiv.min.js?ver=3.7.3'></script>
+<![endif]-->
+<script type="text/javascript">
+/* <![CDATA[ */
+var wellington_menu_title = "Navigation";
+/* ]]> */
+</script>
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/navigation.js"></script>
+<script id="st_insights_js" type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/st_insights.js"></script>
+<link rel="https://api.w.org/" href="http://www.steves-internet-guide.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.steves-internet-guide.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.steves-internet-guide.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Configure Mosquitto Bridge With SSL Encryption" href="http://www.steves-internet-guide.com/mosquitto-bridge-encryption/">
+<link rel="next" title="Understanding MQTT QOS Levels- Part 1" href="http://www.steves-internet-guide.com/understanding-mqtt-qos-levels-part-1/">
+<meta name="generator" content="WordPress 4.9.8">
+<link rel="shortlink" href="http://www.steves-internet-guide.com/?p=8897">
+<link rel="alternate" type="application/json+oembed" href="http://www.steves-internet-guide.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://www.steves-internet-guide.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;format=xml">
+
+<style type="text/css"></style>
+
+<style type="text/css">
+.synved-social-resolution-single {
+display: inline-block;
+}
+.synved-social-resolution-normal {
+display: inline-block;
+}
+.synved-social-resolution-hidef {
+display: none;
+}
+
+@media only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 2dppx),
+only screen and (min-resolution: 192dpi) {
+	.synved-social-resolution-normal {
+	display: none;
+	}
+	.synved-social-resolution-hidef {
+	display: inline-block;
+	}
+}
+</style>
+<script async="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-2450899182473293",
+          enable_page_level_ads: true
+     });
+</script>
+</head>
+
+<body class="post-template-default single single-post postid-8897 single-format-standard post-layout-one-column">
+
+	<div id="header-top" class="header-bar-wrap"></div>
+
+	<div id="page" class="hfeed site">
+
+		<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+		<header id="masthead" class="site-header clearfix" role="banner">
+
+			<div class="header-main container clearfix">
+
+				<div id="logo" class="site-branding clearfix">
+
+										
+			<p class="site-title"><a href="http://www.steves-internet-guide.com/" rel="home">Steve's Internet Guide</a></p>
+
+							
+				</div><!-- .site-branding -->
+
+				<div class="header-widgets clearfix">
+
+
+					
+				</div><!-- .header-widgets -->
+
+			</div><!-- .header-main -->
+
+			<div id="main-navigation-wrap" class="primary-navigation-wrap">
+
+				<button id="main-navigation-toggle" class="main-navigation-toggle">Navigation</button><nav id="main-navigation" class="primary-navigation navigation container clearfix" role="navigation">
+					<ul id="menu-topmenu" class="main-navigation-menu"><li id="menu-item-2288" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-2288"><a href="http://www.steves-internet-guide.com/">Home</a></li>
+<li id="menu-item-12547" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12547"><a title="Home Network Setup" href="http://www.steves-internet-guide.com/build-home-network/">Home Networking</a></li>
+<li id="menu-item-6667" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6667" aria-haspopup="true" aria-expanded="false"><span class="submenu-dropdown-toggle"></span><a title=" MQTT-Beginners Guide and Tutorials" href="http://www.steves-internet-guide.com/mqtt/">MQTT</a>
+<ul class="sub-menu" style="display: none;">
+	<li id="menu-item-11404" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11404"><a title="Paho MQTT Python Client-Beginners Guide" href="http://www.steves-internet-guide.com/into-mqtt-python-client/">MQTT Python Client</a></li>
+	<li id="menu-item-11218" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11218"><a title="Introduction to MQTT-SN (MQTT for Sensor Networks)" href="http://www.steves-internet-guide.com/mqtt-sn/">MQTT-SN</a></li>
+</ul>
+</li>
+<li id="menu-item-10965" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10965"><a title="Mosquitto MQTT Broker" href="http://www.steves-internet-guide.com/mosquitto-broker/">Mosquitto</a></li>
+<li id="menu-item-11217" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11217"><a title="Node-Red Getting Started Guide" href="http://www.steves-internet-guide.com/node-red-overview/">Node-Red</a></li>
+<li id="menu-item-10697" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10697"><a href="http://www.steves-internet-guide.com/ask-steve/">Ask Steve</a></li>
+<li id="menu-item-11590" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11590"><a href="http://www.steves-internet-guide.com/need-help/">Need Help ?</a></li>
+</ul>				</nav><!-- #main-navigation -->
+
+			</div>
+
+		</header><!-- #masthead -->
+
+		
+		
+		
+		<div id="content" class="site-content container clearfix">
+
+	<section id="primary" class="content-single content-area">
+		<main id="main" class="site-main" role="main">
+				
+		
+<article id="post-8897" class="post-8897 post type-post status-publish format-standard hentry category-python-mqtt tag-callbacks tag-python">
+
+	
+	<header class="entry-header">
+
+		<div class="entry-meta">Updated:<span class="updated">June 5, 2018</span>  By <span class="meta-author"> <span class="author vcard"><a class="url fn n" href="http://www.steves-internet-guide.com/author/steve/" title="View all posts by steve" rel="author">steve</a></span></span></div>
+		<h1 class="entry-title">Paho Python MQTT Client – Understanding Callbacks</h1>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content clearfix">
+
+		<p>Callbacks are functions that are called in response to an event.</p>
+<p>The events and callbacks for the Paho MQTT client are as follows:</p>
+<ul>
+<li><strong>Event</strong> Connection acknowledged <strong>Triggers</strong> the <strong>on_connect</strong> callback</li>
+<li><strong>Event</strong>&nbsp;Disconnection acknowledged <strong>Triggers</strong> the&nbsp;<strong>on_disconnect</strong> callback</li>
+<li><strong>Event</strong> Subscription acknowledged <strong>Triggers</strong> the&nbsp; <strong>on_subscribe</strong> callback</li>
+<li><strong>Event</strong> Un-subscription acknowledged <strong>Triggers</strong> the&nbsp; <strong>on_unsubscribe</strong> callback</li>
+<li><strong>Event</strong> Publish acknowledged <strong>Triggers</strong> the <strong>on_publish</strong> callback</li>
+<li><strong>Event</strong> Message Received <strong>Triggers</strong> the <strong>on_message</strong> callback</li>
+<li><strong>Event</strong> Log information available <strong>Triggers</strong> the <strong>on_log</strong> callback</li>
+</ul>
+<p><span id="more-8897"></span><br><br><script async="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-2450899182473293" data-ad-slot="3088489548"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br><br></p>
+<p>The Paho client is designed to only use the callback functions if 
+they exist, and doesn’t provide any default callback functions.</p>
+<p>However; it does provide a mechanism to set them.</p>
+<p>To use a callback you need to do two things</p>
+<ol>
+<li>Create the callback function</li>
+<li>Assign the function to the callback.</li>
+</ol>
+<h3>Callback Function Example</h3>
+<p>As an example we will use the<strong> on_connect</strong> callback.</p>
+<p>First I create my function. I’ve called it <strong>on_connect</strong> but I could have called it anything I wanted.</p>
+<p>Here is the function.</p>
+<pre><code>def on_connect(client, userdata, flags, rc):
+     logging.info("Connected flags"+str(flags)+"result code "\
+     +str(rc)+"client1_id ")
+     client.connected_flag=True</code></pre>
+<p>The function simply logs a message, and sets a flag.</p>
+<p>Now to associate my function with the <strong>On_connect callback</strong> I use the following:</p>
+<pre><code>
+client.on_connect= on_connect</code></pre>
+<p><strong>Note:</strong> If my function had been called myfunction then I would use the following:</p>
+<pre><code>
+client.on_connect= myfunction</code></pre>
+<h3>Callbacks and the Client Loop</h3>
+<p>Callbacks are dependent on the <strong>client loop</strong> as without the loop <strong>the callbacks aren’t triggered.</strong></p>
+<p>Below is the code of a simple python script that <strong>creates a connectio</strong>n and then<strong> waits in a loop</strong> for the <strong>on_connect callbac</strong>k to be triggered.</p>
+<p>The <strong>on_connect callback</strong> then<strong> sets the flag</strong> that terminates the loop and the script ends.</p>
+<p>This means that if the callback<strong> isn’t processed</strong> then the <strong>while loop</strong> never ends as we shall see later.</p>
+<p><img class="alignnone size-full wp-image-9090" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/callback-on_connect-example.jpg" alt="callback-on_connect-example" srcset="http://www.steves-internet-guide.com/wp-content/uploads/callback-on_connect-example.jpg 725w, http://www.steves-internet-guide.com/wp-content/uploads/callback-on_connect-example-300x230.jpg 300w, http://www.steves-internet-guide.com/wp-content/uploads/callback-on_connect-example-600x459.jpg 600w" sizes="(max-width: 725px) 100vw, 725px" width="725" height="555"></p>
+<p>Here is the output generated by the script.</p>
+<p>Notice how the loop executes waiting for the callback and stops once the callback gets processed.<img class="alignnone size-full wp-image-6909" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/callback-on_connect-result-example.jpg" sizes="(max-width: 423px) 100vw, 423px" srcset="http://www.steves-internet-guide.com/wp-content/uploads/callback-on_connect-result-example.jpg 423w, http://www.steves-internet-guide.com/wp-content/uploads/callback-on_connect-result-example-300x157.jpg 300w" alt="callback-on_connect-result-example" width="423" height="222"></p>
+<div class="outline">In the script above the<strong> client..loop_start()</strong> method starts a loop to process callbacks.</div>
+<p>So let’s run the above script again, but this time I won’t start the loop. To do that I simply comment out the <strong>client.start_loop()</strong> line.</p>
+<p><img class="alignnone size-full wp-image-9091" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/callback-loop-comment-out.jpg" alt="callback-loop-comment-out" srcset="http://www.steves-internet-guide.com/wp-content/uploads/callback-loop-comment-out.jpg 714w, http://www.steves-internet-guide.com/wp-content/uploads/callback-loop-comment-out-300x49.jpg 300w, http://www.steves-internet-guide.com/wp-content/uploads/callback-loop-comment-out-600x97.jpg 600w" sizes="(max-width: 714px) 100vw, 714px" width="714" height="116"></p>
+<p>Here is what happens when I run the script.</p>
+<p><img class="alignnone size-full wp-image-6912" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/callback-loop-stopped.jpg" sizes="(max-width: 524px) 100vw, 524px" srcset="http://www.steves-internet-guide.com/wp-content/uploads/callback-loop-stopped.jpg 524w, http://www.steves-internet-guide.com/wp-content/uploads/callback-loop-stopped-300x223.jpg 300w" alt="callback-loop stopped" width="524" height="389"></p>
+<p>You can see that I had to manually terminate the script as it never 
+processed the callback, and the callback is what triggers the callback 
+that terminates the while loop.</p>
+<h3>How Callbacks Work</h3>
+<p>If you dig into the Client code you will find the code for the <strong>Connect acknowledge</strong> message.</p>
+<p>When the client receives a CONNACK message the callback is triggered if it exists.</p>
+<p>Here is the relevant section of the code. (around line 276)</p>
+<p><img class="alignnone size-full wp-image-8904" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/client-callbacks.jpg" alt="client-callbacks" srcset="http://www.steves-internet-guide.com/wp-content/uploads/client-callbacks.jpg 700w, http://www.steves-internet-guide.com/wp-content/uploads/client-callbacks-300x250.jpg 300w, http://www.steves-internet-guide.com/wp-content/uploads/client-callbacks-600x501.jpg 600w" sizes="(max-width: 700px) 100vw, 700px" width="700" height="584"></p>
+<p><strong>Notice</strong> the<strong> if on_connect</strong> statement. This is what checks for the callback, and if it exists it calls the callback- <strong>self.on_connect().</strong></p>
+<p>The <strong>self.on_connect</strong> function is the function we assigned earlier using.</p>
+<p><code>client.on_connect= on_connect</code></p>
+<p>You should see from the code that the function call passes several 
+arguments, and so the function we create needs to be able to handle 
+those arguments.</p>
+<p>If you look back at the function I created you can see that it handles 4 arguments. The <a href="https://pypi.python.org/pypi/paho-mqttp" target="_blank" rel="noopener">documentation</a> has a description of those arguments</p>
+<p><img class="alignnone size-full wp-image-8940" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/callback-connect.jpg" alt="callback-connect" srcset="http://www.steves-internet-guide.com/wp-content/uploads/callback-connect.jpg 589w, http://www.steves-internet-guide.com/wp-content/uploads/callback-connect-300x102.jpg 300w" sizes="(max-width: 589px) 100vw, 589px" width="589" height="201"></p>
+<h3>Asynchronous or Synchronous?</h3>
+<p>If you use the <strong>loop_start()</strong> or <strong>loop_forever</strong> functions then the loop runs in a separate thread, and it is the loop that processes the incoming and outgoing messages.</p>
+<p>In this case the callbacks can occur anytime in your script and are <strong>asynchronous</strong>.</p>
+<p>However if you call the <strong>loop() function</strong> manually in the script then the callbacks are synchronous with your script as they can only occur when you call the <strong>loop()</strong> function.</p>
+<p>See <a href="http://www.steves-internet-guide.com/loop-python-mqtt-client/">Understanding the Loop Function</a></p>
+<p><strong>Video-</strong> <a href="https://youtu.be/o4YhgVLRl2k" target="_blank" rel="noopener">The Loop and Callbacks.</a></p>
+<h3>Returning Values from Callbacks</h3>
+<p>Due to the way they operate It is not possible to return values from a callback using the standard <strong>return</strong> command.</p>
+<p>Therefore if you need to get status information from a callback you need to use some form of global variable in the callback.</p>
+<p>If you refer back to the on_connect call back example I used the <strong>connected_flag</strong> which is a property of the client object.</p>
+<p>Because the client object is available throughout the script it can e accessed anywhere in the script.</p>
+<p>In my scripts the my general approach is extend the main mqtt client class with flags and other variable I need.</p>
+<p>When I create client object it has these flags already assigned.</p>
+<p>This is what it looks like:</p>
+<pre>import paho.mqtt.client as mqtt #import mqqt client
+### extend main class to include flags etc
+mqtt.Client.bad_connection_flag=False
+mqtt.Client.connected_flag=False
+mqtt.Client.disconnect_flag=False
+mqtt.Client.disconnect_time=0.0
+mqtt.Client.pub_msg_count=0
+##
+client=mqtt.Client("myclient") #create client object
+###
+client.client.connected_flag=True #set flag to true somewhere in script
+#####
+</pre>
+<h3>Common Questions and Answers</h3>
+<h4><strong>Q-</strong> MY callback is not being triggered?</h4>
+<p><strong>A-</strong> Have you assigned the function to the Callback? Are you running a loop for that client?</p>
+<h4>Q-My callback returns a value but I don’t see it?</h4>
+<p><strong>A-</strong> Because of the asynchronous nature of callbacks it doesn’t make send to return a value from them</p>
+<p><strong>Related Articles and Resources:</strong></p>
+<ul>
+<li><a href="http://www.steves-internet-guide.com/client-connections-python-mqtt/">Working with Client Connections- Python MQTT</a></li>
+<li><a href="http://www.steves-internet-guide.com/into-mqtt-python-client/">Using the Paho MQTT Python Client for Beginners</a></li>
+<li><a href="http://www.steves-internet-guide.com/subscribing-topics-mqtt-client/">MQTT Subscribe-Python MQTT Client Examples</a></li>
+<li><a href="http://www.steves-internet-guide.com/publishing-messages-mqtt-client/">MQTT Publish-Python MQTT Client Examples</a></li>
+<li><a href="http://www.steves-internet-guide.com/client-objects-python-mqtt/">Client Objects-Working with The Python MQTT Client</a></li>
+<li><a href="http://www.steves-internet-guide.com/loop-python-mqtt-client/">Understanding The loop and Loop Functions</a></li>
+</ul>
+<a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-facebook nolightbox" data-provider="facebook" target="_blank" rel="nofollow" title="Share on Facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;t=Paho%20Python%20MQTT%20Client%20%E2%80%93%20Understanding%20Callbacks&amp;s=100&amp;p[url]=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;p[images][0]=http%3A%2F%2Fwww.steves-internet-guide.com%2Fwp-content%2Fuploads%2Fcallback-on_connect-example.jpg&amp;p[title]=Paho%20Python%20MQTT%20Client%20%E2%80%93%20Understanding%20Callbacks" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;margin-right:5px;"><img alt="Facebook" title="Share on Facebook" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/facebook.png" width="16" height="16"></a><a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-twitter nolightbox" data-provider="twitter" target="_blank" rel="nofollow" title="Share on Twitter" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;text=check%20this%20out" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;margin-right:5px;"><img alt="twitter" title="Share on Twitter" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/twitter.png" width="16" height="16"></a><a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-google_plus nolightbox" data-provider="google_plus" target="_blank" rel="nofollow" title="Share on Google+" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;margin-right:5px;"><img alt="google_plus" title="Share on Google+" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/google_plus.png" width="16" height="16"></a><a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-reddit nolightbox" data-provider="reddit" target="_blank" rel="nofollow" title="Share on Reddit" href="http://www.reddit.com/submit?url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;title=Paho%20Python%20MQTT%20Client%20%E2%80%93%20Understanding%20Callbacks" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;margin-right:5px;"><img alt="reddit" title="Share on Reddit" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/reddit.png" width="16" height="16"></a><a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-pinterest nolightbox" data-provider="pinterest" target="_blank" rel="nofollow" title="Pin it with Pinterest" href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;media=http%3A%2F%2Fwww.steves-internet-guide.com%2Fwp-content%2Fuploads%2Fcallback-on_connect-example.jpg&amp;description=Paho%20Python%20MQTT%20Client%20%E2%80%93%20Understanding%20Callbacks" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;margin-right:5px;"><img alt="pinterest" title="Pin it with Pinterest" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/pinterest.png" width="16" height="16"></a><a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-linkedin nolightbox" data-provider="linkedin" target="_blank" rel="nofollow" title="Share on Linkedin" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F&amp;title=Paho%20Python%20MQTT%20Client%20%E2%80%93%20Understanding%20Callbacks" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;margin-right:5px;"><img alt="linkedin" title="Share on Linkedin" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/linkedin.png" width="16" height="16"></a><a class="synved-social-button synved-social-button-share synved-social-size-16 synved-social-resolution-single synved-social-provider-mail nolightbox" data-provider="mail" rel="nofollow" title="Share by email" href="mailto:?subject=Paho%20Python%20MQTT%20Client%20%E2%80%93%20Understanding%20Callbacks&amp;body=check%20this%20out:%20http%3A%2F%2Fwww.steves-internet-guide.com%2Fmqtt-python-callbacks%2F" style="font-size: 0px; width:16px;height:16px;margin:0;margin-bottom:5px;"><img alt="mail" title="Share by email" class="synved-share-image synved-social-image synved-social-image-share" style="display: inline; width:16px;height:16px; margin: 0; padding: 0; border: none; box-shadow: none;" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/mail.png" width="16" height="16"></a>
+		
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+
+		
+		<div class="entry-categories clearfix">
+			<span class="meta-categories">
+				<a href="http://www.steves-internet-guide.com/category/python-mqtt/" rel="category tag">Python-MQTT</a>			</span>
+		</div><!-- .entry-categories -->
+
+				
+			<div class="entry-tags clearfix">
+				<span class="meta-tags">
+					<a href="http://www.steves-internet-guide.com/tag/callbacks/" rel="tag">callbacks</a><a href="http://www.steves-internet-guide.com/tag/python/" rel="tag">python</a>				</span>
+			</div><!-- .entry-tags -->
+
+						
+	</footer><!-- .entry-footer -->
+
+</article>
+
+<div id="comments" class="comments-area">
+
+	
+	
+		<header class="comments-header">
+
+			<h2 class="comments-title">
+				12 comments			</h2>
+
+		</header><!-- .comment-header -->
+
+		
+		<ol class="comment-list">
+					<li id="comment-1003" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-1003" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/cb55abd6c5c8036bb5332085b440b9d3.jpeg" srcset="http://0.gravatar.com/avatar/cb55abd6c5c8036bb5332085b440b9d3?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">vincent nahmias</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-1003">
+							<time datetime="2018-05-22T17:49:21+00:00">
+								May 22, 2018 at 5:49 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Steve, </p>
+<p>great job for this tuto, i just have one question, some one give me a project and to connect to the broker he uses : </p>
+<p>def mqttCallbacks(self):<br>
+        subscribe.callback(self.message_callback, ‘#’, port = self.port,
+ hostname=self.broker, auth=self.authentication, protocol=mqtt.MQTTv311,
+ tls=self.TLS)</p>
+<p>    def message_callback(self, client, userdata, msg):</p>
+<p>but i can’t find a way to get the return code, i need to store it to know in real time the connection status</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=1003#respond" onclick='return addComment.moveForm( "div-comment-1003", "1003", "respond", "8897" )' aria-label="Reply to vincent nahmias">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-1004" class="comment byuser comment-author-steve bypostauthor odd alt depth-2">
+			<article id="div-comment-1004" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/31bc0b02b5328b98a341a3dd2488cfbb.jpeg" srcset="http://0.gravatar.com/avatar/31bc0b02b5328b98a341a3dd2488cfbb?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">steve</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-1004">
+							<time datetime="2018-05-23T13:34:28+00:00">
+								May 23, 2018 at 1:34 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi<br>
+I’ve edited the tutorial See end of tutorial on return codes</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=1004#respond" onclick='return addComment.moveForm( "div-comment-1004", "1004", "respond", "8897" )' aria-label="Reply to steve">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-969" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-969" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/ec32c4d371d3e3136d038a9fd19f8d10.jpeg" srcset="http://2.gravatar.com/avatar/ec32c4d371d3e3136d038a9fd19f8d10?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn"><a href="http://na/" rel="external nofollow" class="url">Jimmy Saldivias</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-969">
+							<time datetime="2018-05-02T14:41:32+00:00">
+								May 2, 2018 at 2:41 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Steve<br>
+Thanks for your tutorial. I see you use a loop_flag which get a value 
+within the on_connect function and then the value is used on the main 
+program. I have tried to do the same. i.e. use a value changed within 
+the on_message callback function. But it doesn’t work. From within the 
+function, I can print the received value and it is ok. But when I print 
+the value from other part of the program it does not have any value. I 
+even used global to define the variables to be used within the callback 
+function. The result is the same. Please help.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=969#respond" onclick='return addComment.moveForm( "div-comment-969", "969", "respond", "8897" )' aria-label="Reply to Jimmy Saldivias">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-970" class="comment byuser comment-author-steve bypostauthor odd alt depth-2 parent">
+			<article id="div-comment-970" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/31bc0b02b5328b98a341a3dd2488cfbb.jpeg" srcset="http://0.gravatar.com/avatar/31bc0b02b5328b98a341a3dd2488cfbb?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">steve</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-970">
+							<time datetime="2018-05-02T15:20:08+00:00">
+								May 2, 2018 at 3:20 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Jimmy<br>
+I use the client object for the flag. This makes it available across the script.<br>
+import paho.mqtt.client as mqtt<br>
+mqtt.Client.connected_flag=False # assign property to the Client object<br>
+client= mqtt.Client(cname,cleansession) #create a new client</p>
+<p>The inside the on_connect I use:<br>
+    if rc==0:<br>
+        client.connected_flag=True<br>
+    else:<br>
+        client.bad_connection_flag=True</p>
+<p>Note: bad connection flag aslo need to be set not shown above.</p>
+<p>I have two general functions that I call to set the flags and callbacks. They look like this<br>
+#################</p>
+<p>def Initialise_client_object():<br>
+    mqtt.Client.last_pub_time=time.time()<br>
+    mqtt.Client.topic_ack=[]<br>
+    mqtt.Client.run_flag=True<br>
+    mqtt.Client.subscribe_flag=False<br>
+    mqtt.Client.bad_connection_flag=False<br>
+    mqtt.Client.connected_flag=False<br>
+    mqtt.Client.disconnect_flag=False<br>
+    mqtt.Client.disconnect_time=0.0<br>
+    mqtt.Client.pub_msg_count=0</p>
+<p>def Initialise_clients(cname,mqttclient_log,cleansession=True):<br>
+    #flags set<br>
+    client= mqtt.Client(cname,cleansession)<br>
+    if mqttclient_log: #enable mqqt client logging<br>
+        client.on_log=on_log<br>
+    client.on_connect= on_connect        #attach function to callback<br>
+    client.on_message=on_message        #attach function to callback<br>
+    client.on_disconnect=on_disconnect<br>
+    client.on_subscribe=on_subscribe<br>
+    return client</p>
+<p>##################</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=970#respond" onclick='return addComment.moveForm( "div-comment-970", "970", "respond", "8897" )' aria-label="Reply to steve">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-971" class="comment even depth-3 parent">
+			<article id="div-comment-971" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/ec32c4d371d3e3136d038a9fd19f8d10.jpeg" srcset="http://2.gravatar.com/avatar/ec32c4d371d3e3136d038a9fd19f8d10?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn"><a href="http://na/" rel="external nofollow" class="url">Jimmy Saldivias</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-971">
+							<time datetime="2018-05-02T17:25:16+00:00">
+								May 2, 2018 at 5:25 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Steve.<br>
+Thanks for your explanation.<br>
+To clarify. I am trying not to use flags or internally generated values like the clock.<br>
+But to use values received from the outside via MQTT message within the 
+script. An external clock for example, since the RPI will not be 
+connected to the internet and therefore does not have a way of knowing 
+the actual time.<br>
+Currently I am receiving a value, lets call it external_value1. When 
+receive this value, I add (or subtract ) a numerical value to it.<br>
+#####<br>
+import paho.mqtt.client as mqtt<br>
+import time<br>
+import sys<br>
+import datetime<br>
+####<br>
+external_value1 = 0<br>
+added_value2 = 0.0<br>
+topic = [“home”, “”]<br>
+#####<br>
+def on_message(client, userdata, message):<br>
+    global external_value1, added_value2<br>
+    topic = message.topic.split(“/”)<br>
+    if topic[1] == “mytopic”:<br>
+        external_value1 = str(message.payload.decode(“utf-8”))<br>
+        added_value2 = float(external_value1) – time.time()<br>
+        print(external_value1, added_value2) # this prints the actual received external_value1 and the resulting added_value2<br>
+    if topic[1] == “othertopic”<br>
+        …… do something else<br>
+####<br>
+client = mqtt.Client(client_id=”machine”)<br>
+client.on_connect = on_connect<br>
+client.on_message = on_message<br>
+client.on_log = on_log<br>
+####<br>
+client.connect(broker_address, 1883, 60)<br>
+####<br>
+client.suscribe(“home/mytopic”, 1)<br>
+client.suscribe(“home/othertopic”, 1)<br>
+####<br>
+client.loop.start()<br>
+####<br>
+while true:<br>
+    try:<br>
+        print(external_value1, added_value2) #this prints 0, 0.0 values<br>
+        time.sleep(10)<br>
+except (KeyboardInterrupt, SystemExit):<br>
+    client.disconnect()<br>
+    client.loop_stop()<br>
+    sys.exit()<br>
+#####<br>
+My question is why I cannot see the values received within the script. Only inside the call back function.<br>
+Thanks<br>
+Jimmy</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=971#respond" onclick='return addComment.moveForm( "div-comment-971", "971", "respond", "8897" )' aria-label="Reply to Jimmy Saldivias">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-972" class="comment byuser comment-author-steve bypostauthor odd alt depth-4 parent">
+			<article id="div-comment-972" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/31bc0b02b5328b98a341a3dd2488cfbb.jpeg" srcset="http://0.gravatar.com/avatar/31bc0b02b5328b98a341a3dd2488cfbb?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">steve</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-972">
+							<time datetime="2018-05-02T17:45:38+00:00">
+								May 2, 2018 at 5:45 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>You are using global variables so you should be able to see them.<br>
+However the general way of dealing with the messages is to drop them in a list or queue.<br>
+For a list you just do define the list in the main script<br>
+myarray.extend(message).<br>
+You can then get the value anywhere in the script.</p>
+<p>The problem you might get with arrays is if they change while you are looping through them.</p>
+<p>queues are usually better. Here is the relevant code taken from one of my scripts<br>
+############<br>
+from queue import Queue<br>
+q=Queue()<br>
+########<br>
+def on_message(client,userdata, msg):<br>
+    topic=msg.topic<br>
+    m_decode=str(msg.payload.decode(“utf-8″,”ignore”))<br>
+   q.put( m_decode)<br>
+############<br>
+        while not q.empty():<br>
+            results = q.get()<br>
+            if results is None:<br>
+                continue<br>
+#######<br>
+See this tutorial for more about the queue class<br>
+<a href="https://pymotw.com/3/queue/index.html" rel="nofollow">https://pymotw.com/3/queue/index.html</a></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=972#respond" onclick='return addComment.moveForm( "div-comment-972", "972", "respond", "8897" )' aria-label="Reply to steve">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-973" class="comment even depth-5">
+			<article id="div-comment-973" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/ec32c4d371d3e3136d038a9fd19f8d10.jpeg" srcset="http://2.gravatar.com/avatar/ec32c4d371d3e3136d038a9fd19f8d10?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn"><a href="http://na/" rel="external nofollow" class="url">Jimmy Saldivias</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-973">
+							<time datetime="2018-05-02T18:50:53+00:00">
+								May 2, 2018 at 6:50 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Steve.<br>
+Thanks. Firt, You help me made sure my procedure is as expected. I will 
+go through it again. Hopefully I misspelled the name of a variable. – 
+Something that has happened to me before, more times that I would like 
+to admit. – Second, I would examine the usage of queues. It seems that 
+is just what I need now. Thanks for you time, your kindness and your 
+help. May you receive blessings.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-822" class="comment odd alt thread-even depth-1 parent">
+			<article id="div-comment-822" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/293d5ab4da9de4d402ba399406212c4a.jpeg" srcset="http://2.gravatar.com/avatar/293d5ab4da9de4d402ba399406212c4a?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">binayak</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-822">
+							<time datetime="2018-02-26T20:37:40+00:00">
+								February 26, 2018 at 8:37 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Steve,<br>
+Thanks for the tutorial. I am trying to understand how the process of 
+acknowledgement works in MQTT. Say, a publisher publishes a message with
+ qos 1 or 2 and the subscriber receives the message. How will the 
+publisher understand if the following message with msg ID is recieved by
+ the subscriber? Is there any method to realize this functionality using
+ on_publish callback method?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=822#respond" onclick='return addComment.moveForm( "div-comment-822", "822", "respond", "8897" )' aria-label="Reply to binayak">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-823" class="comment byuser comment-author-steve bypostauthor even depth-2">
+			<article id="div-comment-823" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/31bc0b02b5328b98a341a3dd2488cfbb.jpeg" srcset="http://0.gravatar.com/avatar/31bc0b02b5328b98a341a3dd2488cfbb?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">steve</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-823">
+							<time datetime="2018-02-27T17:11:12+00:00">
+								February 27, 2018 at 5:11 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Take a look at this tutorial<br>
+<a href="http://www.steves-internet-guide.com/publishing-messages-mqtt-client/" rel="nofollow">http://www.steves-internet-guide.com/publishing-messages-mqtt-client/</a></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=823#respond" onclick='return addComment.moveForm( "div-comment-823", "823", "respond", "8897" )' aria-label="Reply to steve">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-803" class="comment odd alt thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-803" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/0340e4c0ce99a2616bf81133782c87e4.jpeg" srcset="http://0.gravatar.com/avatar/0340e4c0ce99a2616bf81133782c87e4?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">user1989</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-803">
+							<time datetime="2018-02-12T14:27:57+00:00">
+								February 12, 2018 at 2:27 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Steve,</p>
+<p>Can I define my on_message callback with only message argument?<br>
+mqttc.on_message = on_message<br>
+def on_message(self, message): #client, userdata are not used in my callback implementation</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=803#respond" onclick='return addComment.moveForm( "div-comment-803", "803", "respond", "8897" )' aria-label="Reply to user1989">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-804" class="comment byuser comment-author-steve bypostauthor even depth-2">
+			<article id="div-comment-804" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/31bc0b02b5328b98a341a3dd2488cfbb.jpeg" srcset="http://0.gravatar.com/avatar/31bc0b02b5328b98a341a3dd2488cfbb?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">steve</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-804">
+							<time datetime="2018-02-12T16:45:19+00:00">
+								February 12, 2018 at 4:45 pm							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>No. The callback will pass all three arguments to your function. If you haven’t allowed for them you will get an error.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=804#respond" onclick='return addComment.moveForm( "div-comment-804", "804", "respond", "8897" )' aria-label="Reply to steve">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-642" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-642" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/7017c31c6707ed087c5dd6ed2430c114.jpeg" srcset="http://1.gravatar.com/avatar/7017c31c6707ed087c5dd6ed2430c114?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo" width="56" height="56">						<b class="fn">Carter</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#comment-642">
+							<time datetime="2017-11-11T05:10:13+00:00">
+								November 11, 2017 at 5:10 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Excellent;  very helpful and clear.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/?replytocom=642#respond" onclick='return addComment.moveForm( "div-comment-642", "642", "respond", "8897" )' aria-label="Reply to Carter">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title"><span>Leave a Reply</span> <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.steves-internet-guide.com/mqtt-python-callbacks/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://www.steves-internet-guide.com/wp-comments-post.php" method="post" id="commentform" class="comment-form anti-spam-form-processed" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" size="30" maxlength="245" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" size="30" maxlength="100" aria-describedby="email-notes" required="required" type="email"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" size="30" maxlength="200" type="url"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="8897" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p>
+<!-- Anti-spam plugin v.5.2 wordpress.org/plugins/anti-spam/ -->
+		<p class="antispam-group antispam-group-q" style="clear: both; display: none;">
+			<label>Current ye@r <span class="required">*</span></label>
+			<input name="antspm-a" class="antispam-control antispam-control-a" value="2018" type="hidden">
+			<input name="antspm-q" class="antispam-control antispam-control-q" value="2018" autocomplete="off" type="text">
+		</p>
+		<p class="antispam-group antispam-group-e" style="display: none;">
+			<label>Leave this field empty</label>
+			<input name="antspm-e-email-url-website" class="antispam-control antispam-control-e" autocomplete="off" type="text">
+		</p>
+			<input name="antspm-d" class="antispam-control antispam-control-d" value="2018" type="hidden"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->
+		
+		</main><!-- #main -->
+	</section><!-- #primary -->
+	
+	
+	<section id="secondary" class="sidebar widget-area clearfix" role="complementary">
+
+		<aside id="text-5" class="widget widget_text clearfix">			<div class="textwidget"><img class="size-full wp-image-7866 alignleft" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/steve-small-2.jpg" alt="" width="83" height="109">Hi - I'm Steve and this is my website on home networking, home automation and IOT technologies and services.
+<br>
+
+<h3>Subscribe RSS Feed</h3>
+<a href="http://www.steves-internet-guide.com/feed/"><img title="RSS-Feed" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/RSS-01.png" alt="" width="64" height="64"></a>
+<br>
+</div>
+		</aside><aside id="text-20" class="widget widget_text clearfix"><div class="widget-header"><h3 class="widget-title">Newsletter</h3></div>			<div class="textwidget"><p><strong>Click <a href="http://www.steves-internet-guide.com/newsletter-sign-up/" target="_blank" rel="noopener">here</a> to Sign up to the Newsletter</strong></p>
+<hr>
+</div>
+		</aside><aside id="text-19" class="widget widget_text clearfix"><div class="widget-header"><h3 class="widget-title">Quizzes</h3></div>			<div class="textwidget"><p>Test your MQTT knowledge with the <a href="http://www.steves-internet-guide.com/mqtt-quizzes">MQTT basics quiz</a></p>
+<p>&nbsp;</p>
+</div>
+		</aside><aside id="nav_menu-2" class="widget widget_nav_menu clearfix"><div class="menu-side-menu-container"><ul id="menu-side-menu" class="menu"><li id="menu-item-2620" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2620"><a href="http://www.steves-internet-guide.com/about/">About Me and This Site</a></li>
+</ul></div></aside><aside id="categories-2" class="widget widget_categories clearfix"><div class="widget-header"><h3 class="widget-title">Categories</h3></div>		<ul>
+	<li class="cat-item cat-item-205"><a href="http://www.steves-internet-guide.com/category/general/">general</a>
+</li>
+	<li class="cat-item cat-item-204"><a href="http://www.steves-internet-guide.com/category/home-automation/">home automation</a>
+</li>
+	<li class="cat-item cat-item-132"><a href="http://www.steves-internet-guide.com/category/home-networking/">home networking</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.steves-internet-guide.com/category/internet/" title="Internet related articles and tutorials">Internet</a>
+</li>
+	<li class="cat-item cat-item-127"><a href="http://www.steves-internet-guide.com/category/iot/">IOT</a>
+</li>
+	<li class="cat-item cat-item-143"><a href="http://www.steves-internet-guide.com/category/mosquitto/">Mosquitto</a>
+</li>
+	<li class="cat-item cat-item-137"><a href="http://www.steves-internet-guide.com/category/mqtt/">MQTT</a>
+</li>
+	<li class="cat-item cat-item-170"><a href="http://www.steves-internet-guide.com/category/mqtt-projects/">MQTT-Projects</a>
+</li>
+	<li class="cat-item cat-item-188"><a href="http://www.steves-internet-guide.com/category/mqtt-sn/">MQTT-SN</a>
+</li>
+	<li class="cat-item cat-item-202"><a href="http://www.steves-internet-guide.com/category/mqtt-tools/">MQTT-Tools</a>
+</li>
+	<li class="cat-item cat-item-203"><a href="http://www.steves-internet-guide.com/category/network-programming/">network programming</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.steves-internet-guide.com/category/networking/" title="Networking related articles and tutorials">Networking</a>
+<ul class="children">
+	<li class="cat-item cat-item-155"><a href="http://www.steves-internet-guide.com/category/networking/dns/" title="Understanding the Domain Name system (DNS).">DNS</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-189"><a href="http://www.steves-internet-guide.com/category/node-red/">Node-Red</a>
+</li>
+	<li class="cat-item cat-item-199"><a href="http://www.steves-internet-guide.com/category/node-js/">Node.js</a>
+</li>
+	<li class="cat-item cat-item-168"><a href="http://www.steves-internet-guide.com/category/python-mqtt/" title="Python MQTT and python client related tutorials ">Python-MQTT</a>
+</li>
+	<li class="cat-item cat-item-172"><a href="http://www.steves-internet-guide.com/category/wifi/">wifi</a>
+</li>
+		</ul>
+</aside><aside id="text-15" class="widget widget_text clearfix"><div class="widget-header"><h3 class="widget-title">My Youtube Channel</h3></div>			<div class="textwidget"><img class="size-full wp-image-8634 aligncenter" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/youtube.jpg" alt="youtube" width="100" height="61">
+<br>
+<ul>
+ 	<li><a href="https://www.youtube.com/playlist?list=PLk0D2S-fqJ7YvR1wrpl8A4mhtBbYOlsE4" target="_blank" rel="noopener">node-red</a></li>
+ 	<li><a href="https://www.youtube.com/playlist?list=PLk0D2S-fqJ7bVNTxAxJ8cZLYz9PZLhWnO" target="_blank" rel="noopener">MQTT Brokers</a></li>
+ 	<li><a class="vm-video-title-text yt-uix-sessionlink" href="https://www.youtube.com/playlist?list=PLk0D2S-fqJ7aXM3PG0cgXCVcfgbdMsl7-" data-sessionlink="ei=_HNTW6nxDcm0VveFiqAO&amp;feature=view_all">mqtt and python</a></li>
+ 	<li><a class="vm-video-title-text yt-uix-sessionlink" href="https://www.youtube.com/playlist?list=PLk0D2S-fqJ7aEFnYMwBCou5vEGAzavxOT" data-sessionlink="ei=_HNTW6nxDcm0VveFiqAO&amp;feature=view_all">Internet</a></li>
+ 	</ul>
+<h3><a href="https://twitter.com/@stevesnetguide" target="_blank" rel="noopener"><img class="alignnone size-full wp-image-10799" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/twitter.jpg" alt="twitter" width="61" height="45">Follow on Twitter</a></h3><br><br><br><br></div>
+		</aside><aside id="text-16" class="widget widget_text clearfix"><div class="widget-header"><h3 class="widget-title">Google Ads</h3></div>			<div class="textwidget"><script async="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/adsbygoogle.js"></script>
+<!-- internet-250 -->
+<ins class="adsbygoogle" style="display:inline-block;width:250px;height:250px" data-ad-client="ca-pub-2450899182473293" data-ad-slot="4253615534"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</aside>
+	</section><!-- #secondary -->
+
+	
+
+	</div><!-- #content -->
+	<br>	
+
+
+	
+		<div id="footer" class="footer-wrap">
+	<br>
+	<p class="newsl">
+	<b><a href="http://www.steves-internet-guide.com/newsletter-sign-up/"> Click to Subscribe to The Newsletter</a></b>
+	</p>
+	<div class="site-info">
+<div class="footer1">
+			<a href="http://www.steves-internet-guide.com/sitemap/">Sitemap </a> |<a href="http://www.steves-internet-guide.com/about/">About &amp; Contact</a> | <a href="http://www.steves-internet-guide.com/privacy-policy/">Privacy Policy</a>
+<br> Copyright © 2011-2018 Steve's internet Guide  <br><a rel="author" href="https://plus.google.com/u/0/102772676223075120418/">By Steve Cope</a></div>
+
+		<footer id="colophon" class="site-footer container clearfix" role="contentinfo">
+
+			
+			<div id="footer-text" class="site-info">
+							</div><!-- .site-info -->
+
+		</footer><!-- #colophon -->
+
+	</div>
+
+</div><!-- #page -->
+
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/anti-spam-5.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"http:\/\/www.steves-internet-guide.com\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"1","show_fading":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/polls-js.js"></script>
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/comment-reply.js"></script>
+<script type="text/javascript" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/wp-embed.js"></script>
+<div id="amzn-assoc-ad-dade15a3-3956-40b2-8d7d-02a2e925a3ff"></div><script async="" src="Paho%20Python%20MQTT%20Client%20-%20Understanding%20Callbacks_files/onejs.js"></script>
+
+
+
+
+
+
+</div></body></html>
+<!-- Dynamic page generated in 0.227 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2018-10-05 20:39:42 -->
+<!-- super cache -->
